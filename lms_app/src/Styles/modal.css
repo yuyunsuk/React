@@ -17,7 +17,7 @@ body {
 } */
 
 .modal {
-    display: none; 
+    /* display: none;  */
     position: fixed; 
     z-index: 1; /* 앞에 표시됨 */
     /* left: 50%; */ /* 화면 가로 중앙 기준으로 위치 설정 */

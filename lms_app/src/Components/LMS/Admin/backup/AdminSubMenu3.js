@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 
-export function SubMenu3() {
+export function AdminSubMenu3() {
   return <div>SubMenu 3 Content</div>;
 };
 
-export default SubMenu3;
+export default AdminSubMenu3;

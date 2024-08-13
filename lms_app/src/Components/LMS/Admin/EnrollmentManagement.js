@@ -16,7 +16,7 @@ export function EnrollmentManagement() {
 
     useEffect(() => {
         axios
-            .get(url)
+            .get(url, { withCredentials: true })
             .then((response) => {
                 const items = Array.isArray(response.data)
                     ? response.data

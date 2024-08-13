@@ -1,62 +1,107 @@
-﻿import React, { useEffect, useState } from "react";
+﻿import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../../Styles/mgmt_user.css";
 import "../../../Styles/pagination.css";
-import Modal from "./Modal";
+import "../../../Styles/modal.css";
+
+const COUNT_PER_PAGE = 10;
 
 export function UserManagement() {
-
     const [users, setUsers] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [modalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState("");
-
-    const COUNT_PER_PAGE = 10;
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [userAuthorities, setUserAuthorities] = useState({});
 
     useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get(
-                    `http://localhost:8080/user/admin/getAllUsers`
-                );
-                const totalUsers = response.data;
-                setTotalPages(Math.ceil(totalUsers.length / COUNT_PER_PAGE));
-                setUsers(
-                    totalUsers.slice(
-                        (currentPage - 1) * COUNT_PER_PAGE,
-                        currentPage * COUNT_PER_PAGE
-                    )
-                );
-            } catch (error) {
-                console.error("Error fetching users:", error);
-            }
-        };
-        fetchUsers();
-    }, [currentPage]);
+        fetchData();
+    }, [currentPage, searchTerm]);
+
+    const fetchData = async () => {
+        const url = searchTerm
+            ? `http://localhost:8080/user/id/nameLike/${searchTerm}`
+            : "http://localhost:8080/user/admin/getAllUsers";
+
+        console.log("url => " + url);
+
+        try {
+            const response = await axios.get(url, { withCredentials: true });
+
+            console.log("response: " + response);
+
+            const data = Array.isArray(response.data)
+                ? response.data
+                : [response.data];
+            setUsers(data);
+
+            console.log("response.data: " + data);
+
+            setTotalPages(Math.ceil(data.length / COUNT_PER_PAGE));
+
+            setUserAuthorities(
+                data.reduce((acc, user) => {
+                    acc[user.userId] = user.authority.authorityName;
+                    return acc;
+                }, {})
+            );
+        } catch (error) {
+            console.error("Error fetching data: ", error);
+
+            console.log("Error fetching data: " + error);
+        }
+    };
+
+    const handleSearch = () => {
+        // window.alert("조회 버튼 클릭");
+        console.log();
+
+        setCurrentPage(1);
+        fetchData();
+    };
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
 
-    const handleUpdateAuthority = async (userId, authorityName) => {
+    const handleUpdateAuthority = async (userId, userName, newAuthority) => {
         try {
             const response = await axios.put(
                 "http://localhost:8080/user/updateAuthority",
-                { userId, authorityName }
+                {
+                    userId,
+                    authorityName: newAuthority,
+                },
+                { withCredentials: true }
             );
             if (response.data === "success") {
-                setModalContent("권한이 변경되었습니다.");
+                setModalContent(`${userName} 님의 권한이 변경되었습니다.`);
             } else {
-                setModalContent("업데이트가 실패하였습니다.");
+                setModalContent(
+                    `${userId} 님의 업데이트가 실패하였습니다. ${response.data}`
+                );
             }
-            setModalOpen(true);
         } catch (error) {
             console.error("Error updating authority:", error);
-            setModalContent("업데이트 도중 오류가 발생했습니다.");
-            setModalOpen(true);
+            setModalContent(
+                "DB 업데이트 에러가 발생하였습니다. " + error.message
+            );
         }
+        setIsModalOpen(true);
     };
+
+    const handleSelectChange = (userId, event) => {
+        setUserAuthorities({
+            ...userAuthorities,
+            [userId]: event.target.value,
+        });
+    };
+
+    const paginatedUsers = users.slice(
+        (currentPage - 1) * COUNT_PER_PAGE,
+        currentPage * COUNT_PER_PAGE
+    );
 
     return (
         <div className="main-content">
@@ -67,8 +112,12 @@ export function UserManagement() {
                         type="text"
                         className="search input"
                         placeholder="Search by Name"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                     />
-                    <button className="search button">조회</button>
+                    <button className="search button" onClick={handleSearch}>
+                        조회
+                    </button>
                 </div>
                 <div className="table-container">
                     <table>
@@ -83,8 +132,8 @@ export function UserManagement() {
                                 <th>업데이트</th>
                             </tr>
                         </thead>
-                        <tbody className="user_list">
-                            {users.map((user) => (
+                        <tbody>
+                            {paginatedUsers.map((user) => (
                                 <tr key={user.userId}>
                                     <td>{user.userId}</td>
                                     <td>{user.userNameKor}</td>
@@ -92,9 +141,21 @@ export function UserManagement() {
                                     <td>{user.actYn}</td>
                                     <td>{user.authority.authorityName}</td>
                                     <td>
-                                        <select
+                                        {/* <select
                                             defaultValue={
                                                 user.authority.authorityName
+                                            }
+                                        > */}
+                                        <select
+                                            value={
+                                                userAuthorities[user.userId] ||
+                                                user.authority.authorityName
+                                            }
+                                            onChange={(event) =>
+                                                handleSelectChange(
+                                                    user.userId,
+                                                    event
+                                                )
                                             }
                                         >
                                             <option value="ROLE_ADMIN">
@@ -110,11 +171,11 @@ export function UserManagement() {
                                     </td>
                                     <td>
                                         <button
-                                            className="updateBtn"
                                             onClick={() =>
                                                 handleUpdateAuthority(
                                                     user.userId,
-                                                    user.authority.authorityName
+                                                    user.userNameKor,
+                                                    userAuthorities[user.userId]
                                                 )
                                             }
                                         >
@@ -126,39 +187,55 @@ export function UserManagement() {
                         </tbody>
                     </table>
                 </div>
+
                 <div className="pagination-container">
-                    <div
+                    <button
                         className="prev-button"
                         onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
                     >
                         이전
-                    </div>
-                    {[...Array(totalPages)].map((_, i) => (
+                    </button>
+                    {[...Array(totalPages).keys()].map((page) => (
                         <button
-                            key={i + 1}
+                            key={page + 1}
                             className={`number-button ${
-                                currentPage === i + 1 ? "selected" : ""
+                                currentPage === page + 1 ? "selected" : ""
                             }`}
-                            onClick={() => handlePageChange(i + 1)}
+                            onClick={() => handlePageChange(page + 1)}
                         >
-                            {i + 1}
+                            {page + 1}
                         </button>
                     ))}
-                    <div
+                    <button
                         className="next-button"
                         onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
                     >
                         이후
-                    </div>
+                    </button>
                 </div>
             </div>
-            <Modal
-                isOpen={modalOpen}
-                onClose={() => setModalOpen(false)}
-                content={modalContent}
-            />
+            {/* 모달창 */}
+            {isModalOpen && (
+                <div
+                    id="myModal"
+                    className="modal"
+                    style={{ display: isModalOpen ? "block" : "none" }}
+                >
+                    <div className="modal-content">
+                        <span
+                            className="close"
+                            onClick={() => setIsModalOpen(false)}
+                        >
+                            &times;
+                        </span>
+                        <p>{modalContent}</p>
+                    </div>
+                </div>
+            )}
         </div>
     );
-};
+}
 
 export default UserManagement;

@@ -27,17 +27,17 @@ export function Sidebar() {
                     <div className="content_wrap">
                         <ul className="sub_nav">
                             <li className="active open">
-                                <StyledLink to="/adminUser">
+                                <StyledLink to="/user">
                                     <NavItem name="회원관리"></NavItem>
                                 </StyledLink>
                             </li>
                             <li className="no_sub">
-                                <StyledLink to="/adminLecture">
+                                <StyledLink to="/lecture">
                                     <NavItem name="강의관리"></NavItem>
                                 </StyledLink>
                             </li>
                             <li className="no_sub">
-                                <StyledLink to="/adminEnrollment">
+                                <StyledLink to="/enrollment">
                                     <NavItem name="수강관리"></NavItem>
                                 </StyledLink>
                             </li>
@@ -45,7 +45,6 @@ export function Sidebar() {
                     </div>
                 </div>
             </nav>
-            ``
         </>
     );
 }

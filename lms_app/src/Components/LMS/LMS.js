@@ -4,15 +4,17 @@ import { Home } from "./Home/Home";
 import { Cart } from "./Cart/Cart";
 import { MyPage } from "./MyPage/MyPage";
 import { Community } from "./Community/Community";
+
 import { Login } from "./Login/Login";
-import { Logout } from "./Login/Logout";
+
 import { Error } from "./Error";
 import { Lecture } from "./Lecture/Lecture";
 import { LectureList } from "./Lecture/LectureList";
 import { Search } from "./Search/Search";
 import styled from "styled-components";
 import { LMSWrapper } from "./LMSWrapper";
-import { Admin } from "./Admin/Admin";
+
+import { AdminMainMenu } from "./Admin/AdminMainMenu";
 
 const Container = styled.div`
     width: 100vw;
@@ -67,7 +69,11 @@ export function LMS() {
 
                                 <Route path="/login" element={<Login />} />
 
-                                <Route path="/admin/user" element={<Admin />} />
+                                <Route
+                                    path="/admin/*"
+                                    element={<AdminMainMenu />}
+                                />
+
                                 <Route path="*" element={<Error />} />
                             </Routes>
                         </ContentBox>
