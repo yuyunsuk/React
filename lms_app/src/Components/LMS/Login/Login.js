@@ -1,6 +1,7 @@
 ﻿import React, { useState } from "react";
 import axios from "axios";
 import "../../../Styles/login.css";
+// import { AuthProvider } from '../AuthContext';
 
 export function Login({ onSignup }) {
     const [userId, setUserId] = useState("");
@@ -17,6 +18,9 @@ export function Login({ onSignup }) {
             if (response.status === 200) {
                 // console.log("response.status: " + response.status); 200
                 // console.log("response.data: " + response.data); Success
+
+                // AuthProvider.setIsAuthenticated(true);
+
                 window.location.href = "home";
             }
         } catch (error) {
@@ -34,7 +38,7 @@ export function Login({ onSignup }) {
                     onChange={(e) => setUserId(e.target.value)}
                     placeholder="아이디"
                 />
-                <label>아이디</label>
+                {/* <label>아이디</label> */}
             </div>
             <div className="input-box">
                 <input
@@ -43,7 +47,7 @@ export function Login({ onSignup }) {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="비밀번호"
                 />
-                <label>비밀번호</label>
+                {/* <label>비밀번호</label> */}
             </div>
             <div className="button-box">
                 <div className="loginBtn" onClick={handleLogin}>

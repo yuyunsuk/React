@@ -2,10 +2,10 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { Home } from "./Home/Home";
 import { Cart } from "./Cart/Cart";
-import { MyPage } from "./MyPage/MyPage";
 import { Community } from "./Community/Community";
 
-import { Login } from "./Login/Login";
+// import { Login } from "./Login/Login";
+import { LoginMain } from "./Login/LoginMain";
 
 import { Error } from "./Error";
 import { Lecture } from "./Lecture/Lecture";
@@ -14,7 +14,8 @@ import { Search } from "./Search/Search";
 import styled from "styled-components";
 import { LMSWrapper } from "./LMSWrapper";
 
-import { AdminMainMenu } from "./Admin/AdminMainMenu";
+import { AdminSidebar } from "./Admin/AdminSidebar";
+import { MyPageSidebar } from "./MyPage/MyPageSidebar";
 
 const Container = styled.div`
     width: 100vw;
@@ -60,18 +61,22 @@ export function LMS() {
                                 </Route>
                                 <Route path="/search" element={<Search />} />
                                 <Route path="/cart" element={<Cart />} />
-                                <Route path="/mypage" element={<MyPage />} />
+                                <Route
+                                    path="/mypage/*"
+                                    element={<MyPageSidebar />}
+                                />
 
                                 <Route
                                     path="/community"
                                     element={<Community />}
                                 />
 
-                                <Route path="/login" element={<Login />} />
+                                {/* <Route path="/login" element={<Login />} /> */}
+                                <Route path="/login" element={<LoginMain />} />
 
                                 <Route
                                     path="/admin/*"
-                                    element={<AdminMainMenu />}
+                                    element={<AdminSidebar />}
                                 />
 
                                 <Route path="*" element={<Error />} />

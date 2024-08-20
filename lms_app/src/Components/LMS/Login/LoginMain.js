@@ -4,6 +4,7 @@ import Signup from "./SignUp";
 import Logout from "./Logout";
 import "../../../Styles/login.css";
 import axios from "axios";
+// import { AuthProvider } from "../AuthContext";
 
 export function LoginMain() {
     const [currentView, setCurrentView] = useState("login");
@@ -21,7 +22,9 @@ export function LoginMain() {
             );
             if (response.status === 200) {
                 setIsAuthenticated(true);
-                setCurrentView("user");
+                // AuthProvider.setIsAuthenticated(true);
+
+                setCurrentView("logout");
             }
         } catch (error) {
             console.log("Session error:", error);
@@ -45,8 +48,11 @@ export function LoginMain() {
             );
             if (response.status === 200) {
                 setIsAuthenticated(false);
+                // AuthProvider.setIsAuthenticated(false);
+
                 setCurrentView("login");
-                window.location.href = "main.html";
+                // window.location.href = "main.html";
+                window.location.href = "login";
             }
         } catch (error) {
             console.log("Logout error:", error);
@@ -58,7 +64,8 @@ export function LoginMain() {
     };
 
     const handleConnect = () => {
-        window.location.href = "main.html";
+        // window.location.href = "main.html";
+        window.location.href = "home";
     };
 
     return (

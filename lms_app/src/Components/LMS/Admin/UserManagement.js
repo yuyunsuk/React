@@ -29,14 +29,14 @@ export function UserManagement() {
         try {
             const response = await axios.get(url, { withCredentials: true });
 
-            console.log("response: " + response);
+            // console.log("response: " + response);
 
             const data = Array.isArray(response.data)
                 ? response.data
                 : [response.data];
             setUsers(data);
 
-            console.log("response.data: " + data);
+            // console.log("response.data: " + data);
 
             setTotalPages(Math.ceil(data.length / COUNT_PER_PAGE));
 
@@ -187,34 +187,33 @@ export function UserManagement() {
                         </tbody>
                     </table>
                 </div>
-
-                <div className="pagination-container">
+            </div>
+            <div className="pagination-container">
+                <button
+                    className="prev-button"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    이전
+                </button>
+                {[...Array(totalPages).keys()].map((page) => (
                     <button
-                        className="prev-button"
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
+                        key={page + 1}
+                        className={`number-button ${
+                            currentPage === page + 1 ? "selected" : ""
+                        }`}
+                        onClick={() => handlePageChange(page + 1)}
                     >
-                        이전
+                        {page + 1}
                     </button>
-                    {[...Array(totalPages).keys()].map((page) => (
-                        <button
-                            key={page + 1}
-                            className={`number-button ${
-                                currentPage === page + 1 ? "selected" : ""
-                            }`}
-                            onClick={() => handlePageChange(page + 1)}
-                        >
-                            {page + 1}
-                        </button>
-                    ))}
-                    <button
-                        className="next-button"
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                    >
-                        이후
-                    </button>
-                </div>
+                ))}
+                <button
+                    className="next-button"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                >
+                    이후
+                </button>
             </div>
             {/* 모달창 */}
             {isModalOpen && (

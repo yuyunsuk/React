@@ -26,10 +26,11 @@
     display: grid;
     grid-template-columns: 2fr 5fr;
     font-size: 18px;
-    height: 750px;
+    height: 780px;
 }
 
 .main-content {
+    height: 780px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -46,12 +47,14 @@
 }
 
 .search.label {
+    position: relative;
     margin-left: 0px;
     border: 1px solid black;
+    color: #000;
 }
 
 .table-container {
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
 .pagination-container {

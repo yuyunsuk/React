@@ -1,6 +1,8 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { NavItem } from "./NavItem";
 import styled from "styled-components";
+// import { useAuth } from "./AuthContext";
 
 const Container = styled.div`
     width: 100%;
@@ -24,6 +26,8 @@ const StyledLink = styled(Link)`
 `;
 
 export function Navbar() {
+    // const { isAuthenticated, logout } = useAuth();
+
     return (
         <>
             <Container>
@@ -45,18 +49,34 @@ export function Navbar() {
                         name="장바구니"
                     ></NavItem>
                 </StyledLink>
-                <StyledLink to="/mypage">
+                <StyledLink to="/mypage/user">
                     <NavItem icon="ti ti-user" name="마이페이지"></NavItem>
                 </StyledLink>
                 <StyledLink to="/community">
                     <NavItem icon="ti ti-friends" name="커뮤니티"></NavItem>
                 </StyledLink>
+
+                {/* {isAuthenticated ? (
+                    <StyledLink to="/logout">
+                        <NavItem icon="ti ti-logout" name="로그아웃" />
+                    </StyledLink>
+                ) : (
+                    <StyledLink to="/login">
+                        <NavItem icon="ti ti-login" name="로그인" />
+                    </StyledLink>
+                )}
+                {isAuthenticated && (
+                    <StyledLink to="/admin/user">
+                        <NavItem icon="ti ti-settings" name="관리자" />
+                    </StyledLink>
+                )} */}
+
                 <StyledLink to="/login">
-                    <NavItem icon="ti ti-login" name="로그인"></NavItem>
+                    <NavItem icon="ti ti-login" name="로그인/아웃" />
                 </StyledLink>
 
                 <StyledLink to="/admin/user">
-                    <NavItem icon="ti ti-settings" name="관리자"></NavItem>
+                    <NavItem icon="ti ti-settings" name="관리자" />
                 </StyledLink>
             </Container>
         </>

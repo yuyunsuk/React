@@ -37,6 +37,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: GmarketSansMedium;
   }
 `;
+
 function App() {
     // <Gallery />
     // <CounterState />

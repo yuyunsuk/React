@@ -14,7 +14,7 @@ import { EnrollmentManagement } from "./EnrollmentManagement";
 //     float: left;
 // `;
 
-export function AdminMainMenu() {
+export function AdminSidebar() {
     const location = useLocation(); // Hook to get the current location
 
     // Determine the current active path
@@ -74,4 +74,4 @@ export function AdminMainMenu() {
     );
 }
 
-export default AdminMainMenu;
+export default AdminSidebar;
