@@ -17,6 +17,8 @@ import { LMSWrapper } from "./LMSWrapper";
 import { AdminSidebar } from "./Admin/AdminSidebar";
 import { MyPageSidebar } from "./MyPage/MyPageSidebar";
 
+import { LectureDetail } from "./Lecture/LectureDetail";
+
 const Container = styled.div`
     width: 100vw;
     display: flex;
@@ -59,6 +61,10 @@ export function LMS() {
                                     {/* // pathvariable */}
                                     <Route path=":id" element={<Lecture />} />
                                 </Route>
+                                <Route
+                                    path="/lectures/:lectureId"
+                                    element={<LectureDetail />}
+                                />
                                 <Route path="/search" element={<Search />} />
                                 <Route path="/cart" element={<Cart />} />
                                 <Route

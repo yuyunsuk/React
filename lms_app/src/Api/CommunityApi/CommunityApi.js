@@ -8,7 +8,7 @@ const api = axios.create({
 // Lms_Events
 export async function createLmsEvent(lmsEvent) {
   try {
-    const response = await api.post("/", lmsEvent);
+    const response = await api.post("/api/lmsevents", lmsEvent);
     return response.data;
   } catch (error) {
     console.error("Error createLmsEvent:", error);
@@ -18,7 +18,7 @@ export async function createLmsEvent(lmsEvent) {
 
 export async function getAllLmsEvents(page = 1, size = 10) {
   try {
-    const response = await api.get("/", {
+    const response = await api.get("/api/lmsevents", {
       params: { page, size },
     });
     return response.data;
@@ -30,7 +30,7 @@ export async function getAllLmsEvents(page = 1, size = 10) {
 
 export async function getLmsEventById(id) {
   try {
-    const response = await api.get(`/id/${id}`);
+    const response = await api.get(`/api/lmsevents/id/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error getLmsEventById:", error);
@@ -40,7 +40,7 @@ export async function getLmsEventById(id) {
 
 export async function updateLmsEvent(id, lmsEventDetails) {
   try {
-    const response = await api.put(`/id/${id}`, lmsEventDetails);
+    const response = await api.put(`/api/lmsevents/id/${id}`, lmsEventDetails);
     return response.data;
   } catch (error) {
     console.error("Error updateLmsEvent:", error);
@@ -50,9 +50,19 @@ export async function updateLmsEvent(id, lmsEventDetails) {
 
 export async function deleteLmsEvent(id) {
   try {
-    await api.delete(`/id/${id}`);
+    await api.delete(`/api/lmsevents/id/${id}`);
   } catch (error) {
     console.error("Error deleteLmsEvent:", error);
+    throw error;
+  }
+}
+
+export async function getAllEvent() {
+  try {
+    const response = await api.get("/api/lmsevents/event");
+    return response.data;
+  } catch (error) {
+    console.error("Error getAllEvent", error);
     throw error;
   }
 }
@@ -60,7 +70,7 @@ export async function deleteLmsEvent(id) {
 // Lms_Notices
 export async function getAllNotices(page = 0, size = 5) {
   try {
-    const response = await api.get("/", {
+    const response = await api.get("/api/notices", {
       params: { page, size },
     });
     return response.data;
@@ -72,7 +82,7 @@ export async function getAllNotices(page = 0, size = 5) {
 
 export async function getNoticeById(id) {
   try {
-    const response = await api.get(`/${id}`);
+    const response = await api.get(`/api/notices/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error getNoticeById:", error);
@@ -82,7 +92,7 @@ export async function getNoticeById(id) {
 
 export async function createNotice(notice) {
   try {
-    const response = await api.post("/", notice);
+    const response = await api.post("/api/notices", notice);
     return response.data;
   } catch (error) {
     console.error("Error createNotice:", error);
@@ -92,7 +102,7 @@ export async function createNotice(notice) {
 
 export async function updateNotice(id, notice) {
   try {
-    const response = await api.put(`/${id}`, notice);
+    const response = await api.put(`/api/notices/${id}`, notice);
     return response.data;
   } catch (error) {
     console.error("Error updateNotice:", error);
@@ -102,7 +112,7 @@ export async function updateNotice(id, notice) {
 
 export async function deleteNotice(id) {
   try {
-    await api.delete(`/${id}`);
+    await api.delete(`/api/notices/${id}`);
   } catch (error) {
     console.error("Error deleteNotice:", error);
     throw error;
@@ -111,7 +121,7 @@ export async function deleteNotice(id) {
 
 export async function getCurrentUser() {
   try {
-    const response = await api.get("/current");
+    const response = await api.get("/api/notices/current");
     return response.data;
   } catch (error) {
     console.error("Error getCurrentUser:", error);
@@ -122,7 +132,7 @@ export async function getCurrentUser() {
 // Lms_Qa
 export async function getAllQuestions(page = 0, size = 5, category = null) {
   try {
-    const response = await api.get("/getAllItems", {
+    const response = await api.get("/api/qa/getAllItems", {
       params: { page, size, category },
     });
     return response.data;
@@ -134,7 +144,7 @@ export async function getAllQuestions(page = 0, size = 5, category = null) {
 
 export async function getQuestionById(id) {
   try {
-    const response = await api.get(`/${id}`);
+    const response = await api.get(`/api/qa/${id}`);
     return response.data;
   } catch (error) {
     console.error("Error getQuestionById:", error);
@@ -144,7 +154,7 @@ export async function getQuestionById(id) {
 
 export async function createQuestion(question) {
   try {
-    const response = await api.post("/newQuestion", question);
+    const response = await api.post("/api/qa/newQuestion", question);
     return response.data;
   } catch (error) {
     console.error("Error createQuestion:", error);
@@ -154,7 +164,7 @@ export async function createQuestion(question) {
 
 export async function updateQuestion(id, question) {
   try {
-    const response = await api.put(`/${id}`, question);
+    const response = await api.put(`/api/qa/${id}`, question);
     return response.data;
   } catch (error) {
     console.error("Error updateQuestion:", error);
@@ -164,7 +174,7 @@ export async function updateQuestion(id, question) {
 
 export async function deleteQuestion(id) {
   try {
-    await api.delete(`/${id}`);
+    await api.delete(`/api/qa/${id}`);
   } catch (error) {
     console.error("Error deleteQuestion:", error);
     throw error;
@@ -173,7 +183,7 @@ export async function deleteQuestion(id) {
 
 export async function answerQuestion(id, answerDto) {
   try {
-    const response = await api.post(`/${id}/answer`, answerDto);
+    const response = await api.post(`/api/qa/${id}/answer`, answerDto);
     return response.data;
   } catch (error) {
     console.error("Error answerQuestion:", error);
@@ -183,7 +193,10 @@ export async function answerQuestion(id, answerDto) {
 
 export async function updateQuestionStatus(id, statusUpdateDto) {
   try {
-    const response = await api.put(`/${id}/updateStatus`, statusUpdateDto);
+    const response = await api.put(
+      `/api/qa/${id}/updateStatus`,
+      statusUpdateDto
+    );
     return response.data;
   } catch (error) {
     console.error("Error updateQuestionStatus:", error);
@@ -193,7 +206,7 @@ export async function updateQuestionStatus(id, statusUpdateDto) {
 
 export async function searchQuestions(keyword, page = 0, size = 5) {
   try {
-    const response = await api.get("/search", {
+    const response = await api.get("/api/qa/search", {
       params: { keyword, page, size },
     });
     return response.data;

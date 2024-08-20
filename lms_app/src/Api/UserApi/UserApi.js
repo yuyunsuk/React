@@ -7,7 +7,7 @@ const api = axios.create({
 
 export async function signUp(userDto) {
   try {
-    const response = await api.post("/signup", userDto);
+    const response = await api.post("/user/signup", userDto);
     return response.data;
   } catch (error) {
     console.error("Error signUp:", error);
@@ -17,7 +17,7 @@ export async function signUp(userDto) {
 
 export async function login(userDto) {
   try {
-    const response = await api.post("/login", userDto);
+    const response = await api.post("/user/login", userDto);
     return response.data;
   } catch (error) {
     console.error("Error login:", error);
@@ -27,7 +27,7 @@ export async function login(userDto) {
 
 export async function logout() {
   try {
-    const response = await api.post("/logout");
+    const response = await api.post("/user/logout");
     return response.data;
   } catch (error) {
     console.error("Error logout:", error);
@@ -37,7 +37,7 @@ export async function logout() {
 
 export async function getCurrentUser() {
   try {
-    const response = await api.get("/current");
+    const response = await api.get("/user/current");
     return response.data;
   } catch (error) {
     console.error("Error getCurrentUser:", error);
@@ -47,7 +47,7 @@ export async function getCurrentUser() {
 
 export async function getUserByUserId(userId) {
   try {
-    const response = await api.get(`/id/${userId}`);
+    const response = await api.get(`/user/id/${userId}`);
     return response.data;
   } catch (error) {
     console.error("Error getUserByUserId:", error);
@@ -57,7 +57,7 @@ export async function getUserByUserId(userId) {
 
 export async function findUsersByUserNameLike(userName) {
   try {
-    const response = await api.get(`/id/nameLike/${userName}`);
+    const response = await api.get(`/user/id/nameLike/${userName}`);
     return response.data;
   } catch (error) {
     console.error("Error findUsersByUserNameLike:", error);
@@ -67,7 +67,7 @@ export async function findUsersByUserNameLike(userName) {
 
 export async function getUserByUserName(userName) {
   try {
-    const response = await api.get(`/id/name/${userName}`);
+    const response = await api.get(`/user/id/name/${userName}`);
     return response.data;
   } catch (error) {
     console.error("Error getUserByUserName:", error);
@@ -77,7 +77,7 @@ export async function getUserByUserName(userName) {
 
 export async function getAllUsers() {
   try {
-    const response = await api.get("/admin/getAllUsers");
+    const response = await api.get("/user/admin/getAllUsers");
     return response.data;
   } catch (error) {
     console.error("Error getAllUsers:", error);
@@ -87,7 +87,7 @@ export async function getAllUsers() {
 
 export async function setUserData(user) {
   try {
-    const response = await api.put("/userset", user);
+    const response = await api.put("/user/userset", user);
     return response.data;
   } catch (error) {
     console.error("Error setUserData:", error);
@@ -97,7 +97,7 @@ export async function setUserData(user) {
 
 export async function updateAuthority(authorityUpdateDto) {
   try {
-    const response = await api.put("/updateAuthority", authorityUpdateDto);
+    const response = await api.put("/user/updateAuthority", authorityUpdateDto);
     return response.data;
   } catch (error) {
     console.error("Error updateAuthority:", error);
