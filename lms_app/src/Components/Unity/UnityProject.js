@@ -19,7 +19,7 @@ export function UnityProject() {
     // });
 
     // const [playingGame, setPlayingGame] = useState(false);
-    const [playingGame, setPlayingGame] = useState(true);
+    const [playingGame, setPlayingGame] = useState(false);
 
     const [isGameOver, setIsGameOver] = useState(false);
     const [userName, setUserName] = useState();
