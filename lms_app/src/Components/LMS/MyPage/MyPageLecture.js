@@ -8,31 +8,13 @@ const urlRegi = "http://localhost:8080/course/registration"; // 모든 강의등
 const urlProgress = "http://localhost:8080/progress/getAllLectureProgress"; // 진도 조회
 
 export function MyPageLecture() {
-    const [userId, setUserId] = useState(null);
-    const [lectureData, setLectureData] = useState([]);
+    const [userId, setUserId] = useState(null); // User ID 데이터
+    const [lectureData, setLectureData] = useState([]); // 강의 상태별 Count 데이터
     const [currentTab, setCurrentTab] = useState("summary"); // summary, studying, cancel, complete
 
-    const fetchRegistrationData = async () => {
-        try {
-            const { data } = await axios.get(urlRegi + "/" + userId, {
-                withCredentials: true,
-            });
-
-            window.alert("강의등록 조회 개별:" + data);
-
-            displayLecture(data);
-            displayCancelLecture(data);
-            displayCompleteLecture(data);
-
-            // You can filter and set different types of lectures here
-        } catch (error) {
-            console.error("Error fetching registration data:", error);
-        }
-    };
-
-    useEffect(() => {
-        fetchRegistrationData();
-    }, []);
+    // useEffect(() => {
+    //     fetchRegistrationData();
+    // }, []);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -45,8 +27,8 @@ export function MyPageLecture() {
                 // window.alert("UserId: " + data.userId);
 
                 const lecData = `http://localhost:8080/course/lectureStatusCount/id/${data.userId}`;
-                await fetchLectureData(lecData);
-                await userDataSet(lecData);
+                await fetchLectureData(lecData); // 강의 상태별 Count 조회 및 상태 저장
+                await userDataSet(lecData); // 강의 상태별 Count 조회 및 그래프 세팅
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
@@ -54,6 +36,33 @@ export function MyPageLecture() {
 
         fetchUserData();
     }, []);
+
+    const fetchRegistrationData = async (tab) => {
+        try {
+            const urlRegiUserId = urlRegi + "/id/" + userId;
+
+            // window.alert("urlRegiUserId: " + urlRegiUserId);
+
+            const { data } = await axios.get(urlRegiUserId, {
+                withCredentials: true,
+            }); // 세션 조회
+
+            // window.alert("강의등록 조회 개별:" + data);
+
+            // studying, cancel, complete
+            if (tab === "studying") {
+                displayLecture(data);
+            } else if (tab === "cancel") {
+                displayCancelLecture(data);
+            } else if (tab === "complete") {
+                displayCompleteLecture(data);
+            }
+
+            // You can filter and set different types of lectures here
+        } catch (error) {
+            window.alert("Error fetching registration data load !!!");
+        }
+    };
 
     const fetchLectureData = async (lecData) => {
         try {
@@ -186,15 +195,20 @@ export function MyPageLecture() {
                         tr.appendChild(classRoom);
                         tbody.appendChild(tr);
 
-                        // 나의학습[학습중]에서 강의실 홈으로 이동
+                        // 나의학습[학습중]에서 강의실 홈으로 이동 => 수정 예정
                         classRoomBtn.addEventListener("click", () => {
                             const courseUserId = data.user.userId;
                             const courseLectureId = data.lecture.lectureId;
-                            window.location.href =
-                                "course.html?userId=" +
-                                courseUserId +
-                                "&lectureId=" +
-                                courseLectureId;
+                            // http://localhost:3000/course/test01/L00000000057
+
+                            // 현재 URL에서 '/mypage/'를 제거
+                            const baseUrl = window.location.href.replace(
+                                "/mypage/lecture",
+                                ""
+                            );
+
+                            // 새로운 경로로 변경
+                            window.location.href = `${baseUrl}/course/${courseUserId}/${courseLectureId}`;
                         });
 
                         document
@@ -234,77 +248,69 @@ export function MyPageLecture() {
         const tbody = document.querySelector(".cancel-body");
         const Cyears = document.querySelector("#userCancelLecSearchYears");
         lectureList.forEach((data, index) => {
-            axios
-                .get(urlCurrent)
-                .then((response) => {
-                    // console.log(index);
+            if (
+                userId === data.user.userId &&
+                data.lectureStatus == "I" &&
+                data.lectureCompletedCheck == "N"
+            ) {
+                // 태그 요소 생성
+                const tr = document.createElement("tr");
+                const imgtd = document.createElement("td");
+                const lectureName = document.createElement("td");
+                const lectureDate = document.createElement("td");
+                const startDate = document.createElement("td");
+                const lectureCancel = document.createElement("td");
+                const lectureCancelBtn = document.createElement("div");
+                const img = document.createElement("img");
+                // 클래스이름 생성
+                imgtd.classList.add("imgtd");
+                img.classList.add("image");
+                tr.classList.add("lectr");
+                lectureCancel.classList.add("lectureCancel");
+                lectureCancelBtn.classList.add("lectureCancelBtn");
+                lectureCancelBtn.id = `lectureCancelBtn-${index}`;
+                // 태그속성추가
+                img.src = data.lecture.imagePath;
+                lectureName.textContent = data.lecture.lectureName;
+                lectureDate.textContent =
+                    data.lecture.educationPeriodStartDate +
+                    " ~ " +
+                    data.lecture.educationPeriodEndDate;
+                startDate.textContent = data.courseRegistrationDate;
+                lectureCancel.textContent = "수강승인";
+                lectureCancelBtn.textContent = "수강취소";
 
-                    if (
-                        response.data.userId === data.user.userId &&
-                        data.lectureStatus == "I" &&
-                        data.lectureCompletedCheck == "N"
-                    ) {
-                        // 태그 요소 생성
-                        const tr = document.createElement("tr");
-                        const imgtd = document.createElement("td");
-                        const lectureName = document.createElement("td");
-                        const lectureDate = document.createElement("td");
-                        const startDate = document.createElement("td");
-                        const lectureCancel = document.createElement("td");
-                        const lectureCancelBtn = document.createElement("div");
-                        const img = document.createElement("img");
-                        // 클래스이름 생성
-                        imgtd.classList.add("imgtd");
-                        img.classList.add("image");
-                        tr.classList.add("lectr");
-                        lectureCancel.classList.add("lectureCancel");
-                        lectureCancelBtn.classList.add("lectureCancelBtn");
-                        lectureCancelBtn.id = `lectureCancelBtn-${index}`;
-                        // 태그속성추가
-                        img.src = data.lecture.imagePath;
-                        lectureName.textContent = data.lecture.lectureName;
-                        lectureDate.textContent =
-                            data.lecture.educationPeriodStartDate +
-                            " ~ " +
-                            data.lecture.educationPeriodEndDate;
-                        startDate.textContent = data.courseRegistrationDate;
-                        lectureCancel.textContent = "수강승인";
-                        lectureCancelBtn.textContent = "수강취소";
+                // appendChild 부모자식 위치 설정
+                imgtd.appendChild(img);
+                lectureCancel.appendChild(lectureCancelBtn);
+                tr.appendChild(imgtd);
+                tr.appendChild(lectureName);
+                tr.appendChild(lectureDate);
+                tr.appendChild(startDate);
+                tr.appendChild(lectureCancel);
+                tbody.appendChild(tr);
 
-                        // appendChild 부모자식 위치 설정
-                        imgtd.appendChild(img);
-                        lectureCancel.appendChild(lectureCancelBtn);
-                        tr.appendChild(imgtd);
-                        tr.appendChild(lectureName);
-                        tr.appendChild(lectureDate);
-                        tr.appendChild(startDate);
-                        tr.appendChild(lectureCancel);
-                        tbody.appendChild(tr);
+                document.getElementById(`lectureCancelBtn-${index}`).onclick =
+                    function () {
+                        if (window.confirm("해당 강좌를 삭제하시겠습니까?")) {
+                            const deleteUrl = `http://localhost:8080/course/delCourseRegistration/${data.user.userId}/${data.lecture.lectureId}`;
 
-                        document.getElementById(
-                            `lectureCancelBtn-${index}`
-                        ).onclick = function () {
-                            if (window.alert("해당 강좌를 삭제하시겠습니까?")) {
-                                axios
-                                    .delete(
-                                        `/course/delCourseRegistration/${data.user.userId}/${data.lecture.lectureId}`,
-                                        { withCredentials: true }
-                                    )
-                                    .then((response) => {
-                                        console.log("데이터:", response.data);
-                                        tr.innerHTML = "";
-                                        alert("삭제되었습니다.");
-                                    })
-                                    .catch((error) => {
-                                        console.log("에러 발생: ", error);
-                                    });
-                            }
-                        };
-                    }
-                })
-                .catch((error) => {
-                    console.log("에러 발생: ", error);
-                });
+                            axios
+                                .delete(deleteUrl, { withCredentials: true })
+                                .then((response) => {
+                                    console.log("데이터:", response.data);
+                                    tr.innerHTML = "";
+                                    alert("삭제되었습니다.");
+                                })
+                                .catch((error) => {
+                                    window.alert(
+                                        "해당 강좌 삭제 Error: " + error
+                                    );
+                                    console.log("에러 발생: ", error);
+                                });
+                        }
+                    };
+            }
         });
     }
 
@@ -313,69 +319,65 @@ export function MyPageLecture() {
         console.log("displayCompleteLecture 응답 lectureList: ", lectureList);
         const tbody = document.querySelector(".complete-body");
         lectureList.forEach((data) => {
-            axios
-                .get(urlCurrent)
-                .then((response) => {
-                    if (
-                        response.data.userId === data.user.userId &&
-                        data.lectureCompletedCheck == "Y"
-                    ) {
-                        // 태그 요소 생성
-                        const tr = document.createElement("tr");
-                        const imgtd = document.createElement("td");
-                        const lectureName = document.createElement("td");
-                        const lectureDate = document.createElement("td");
-                        // const lectureGrade = document.createElement("td");
-                        const isLectureEnd = document.createElement("td");
-                        const classRoom = document.createElement("td");
-                        const reviewBtn = document.createElement("div");
-                        const img = document.createElement("img");
-                        // 클래스이름 생성
-                        imgtd.classList.add("imgtd");
-                        img.classList.add("image");
-                        tr.classList.add("lectr");
-                        reviewBtn.classList.add("reviewBtn");
-                        // 태그속성추가
-                        img.src = data.lecture.imagePath;
-                        lectureName.textContent = data.lecture.lectureName;
-                        lectureDate.textContent =
-                            data.lecture.educationPeriodStartDate +
-                            " ~ " +
-                            data.lecture.educationPeriodEndDate;
-                        isLectureEnd.textContent =
-                            data.lectureStatus == "C"
-                                ? "수료"
-                                : data.lectureStatus == "I"
-                                ? "미수료"
-                                : console.log("lectureStatus error!!!");
-                        reviewBtn.textContent = "강의리뷰";
+            if (
+                userId === data.user.userId &&
+                data.lectureCompletedCheck == "Y"
+            ) {
+                // 태그 요소 생성
+                const tr = document.createElement("tr");
+                const imgtd = document.createElement("td");
+                const lectureName = document.createElement("td");
+                const lectureDate = document.createElement("td");
+                // const lectureGrade = document.createElement("td");
+                const isLectureEnd = document.createElement("td");
+                const classRoom = document.createElement("td");
+                const reviewBtn = document.createElement("div");
+                const img = document.createElement("img");
+                // 클래스이름 생성
+                imgtd.classList.add("imgtd");
+                img.classList.add("image");
+                tr.classList.add("lectr");
+                reviewBtn.classList.add("reviewBtn");
+                // 태그속성추가
+                img.src = data.lecture.imagePath;
+                lectureName.textContent = data.lecture.lectureName;
+                lectureDate.textContent =
+                    data.lecture.educationPeriodStartDate +
+                    " ~ " +
+                    data.lecture.educationPeriodEndDate;
+                isLectureEnd.textContent =
+                    data.lectureStatus == "C"
+                        ? "수료"
+                        : data.lectureStatus == "I"
+                        ? "미수료"
+                        : console.log("lectureStatus error!!!");
+                reviewBtn.textContent = "강의리뷰";
 
-                        // appendChild 부모자식 위치 설정
-                        imgtd.appendChild(img);
-                        classRoom.appendChild(reviewBtn);
-                        tr.appendChild(imgtd);
-                        tr.appendChild(lectureName);
-                        tr.appendChild(lectureDate);
-                        // tr.appendChild(lectureGrade);
-                        tr.appendChild(isLectureEnd);
-                        tr.appendChild(classRoom);
-                        tbody.appendChild(tr);
-                    }
-                })
-                .catch((error) => {
-                    console.log("에러 발생: ", error);
-                });
+                // appendChild 부모자식 위치 설정
+                imgtd.appendChild(img);
+                classRoom.appendChild(reviewBtn);
+                tr.appendChild(imgtd);
+                tr.appendChild(lectureName);
+                tr.appendChild(lectureDate);
+                // tr.appendChild(lectureGrade);
+                tr.appendChild(isLectureEnd);
+                tr.appendChild(classRoom);
+                tbody.appendChild(tr);
+            }
         });
     }
 
     // TabPage 변경시 이벤트 처리
     const handleTabClick = (tab) => {
         setCurrentTab(tab);
-        window.alert("TabPage: " + tab);
+        // window.alert("TabPage: " + tab);
 
-        if (tab == "summary") {
+        if (tab === "summary") {
             const lecData = `http://localhost:8080/course/lectureStatusCount/id/${userId}`;
-            userDataSet(lecData);
+            userDataSet(lecData); // 강의 상태별 Count 조회 및 그래프 세팅
+        } else {
+            // studying, cancel, complete
+            fetchRegistrationData(tab); // 강의 등록 정보 조회
         }
     };
 

@@ -1,7 +1,17 @@
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import { CommunitySidebar } from './CommunitySidebar';
+
 export function Community() {
-    return (
-        <>
-            <h1>커뮤니티 페이지 입니다.</h1>
-        </>
-    );
+  return (
+    <div style={{ display: 'flex' }}>
+      <CommunitySidebar />
+      <div style={{ flex: 1, padding: '20px' }}>
+        {/* Outlet을 사용해 하위 라우트가 여기에 표시됨 */}
+        <Outlet />
+      </div>
+    </div>
+  );
 }
+
+export default Community;

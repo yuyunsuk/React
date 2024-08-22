@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getLecture } from "../../../Api/LectureApi/LectureApi";
 import styled from "styled-components";
 import {
@@ -37,12 +37,10 @@ export function LectureDetail() {
   const [teacher, setTeacher] = useState([]);
   const [review, setReview] = useState([]);
   const [userId, setUserId] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    LectureAxios();
-    TeacherAxios();
-    ReviewAxios();
-    ContentAxios();
+    Axios();
   }, [lectureId]);
 
   // 로그인한 userId 가져오기
@@ -128,38 +126,32 @@ export function LectureDetail() {
     }
   }
 
-  // Lecture 데이터
-  async function LectureAxios() {
+  async function Axios() {
+    // Lecture 데이터
     try {
       const LectureData = await getLecture(lectureId);
       setLecture(LectureData);
     } catch (error) {
       console.log("Lecture Error", error);
     }
-  }
 
-  // Content 데이터
-  async function ContentAxios() {
+    // Content 데이터
     try {
       const ContentData = await getContentsByLectureId(lectureId);
       setContent(ContentData);
     } catch (error) {
       console.log("Content Error", error);
     }
-  }
 
-  // Teacher 데이터
-  async function TeacherAxios() {
+    // Teacher 데이터
     try {
       const TeacherData = await getTeacherByLectureId(lectureId);
       setTeacher(TeacherData);
     } catch (error) {
       console.log("Teacher Error", error);
     }
-  }
 
-  // Review 데이터
-  async function ReviewAxios() {
+    // Review 데이터
     try {
       const ReviewData = await getReviewByLectureId(lectureId);
       setReview(ReviewData);
@@ -168,8 +160,8 @@ export function LectureDetail() {
     }
   }
 
-  if (!lecture && !content && !teacher && !review) {
-    return <p>No data found.</p>; // 데이터가 없을 때 표시할 내용
+  async function CourseMove() {
+    navigate(`/course/${userId}/${lectureId}`);
   }
 
   return (
@@ -215,6 +207,9 @@ export function LectureDetail() {
         <p>　</p>
         <p>*Course Add*</p>
         <button onClick={courseAdd}>수강하기</button>
+        <p>　</p>
+        <p>*Course View*</p>
+        <button onClick={CourseMove}>강의보기</button>
       </Test>
     </Container>
   );

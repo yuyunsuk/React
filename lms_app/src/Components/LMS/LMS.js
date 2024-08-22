@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { Home } from "./Home/Home";
 import { Cart } from "./Cart/Cart";
+import { Course } from "./Course/Course";
 import { Community } from "./Community/Community";
 
 // import { Login } from "./Login/Login";
@@ -16,8 +17,11 @@ import { LMSWrapper } from "./LMSWrapper";
 
 import { AdminSidebar } from "./Admin/AdminSidebar";
 import { MyPageSidebar } from "./MyPage/MyPageSidebar";
+import { CommunitySidebar } from "./Community/CommunitySidebar";
 
 import { LectureDetail } from "./Lecture/LectureDetail";
+
+import { UnityProject } from "../../Components/Unity/UnityProject";
 
 const Container = styled.div`
     width: 100vw;
@@ -55,7 +59,10 @@ export function LMS() {
                                     path="/"
                                     element={<Navigate replace to="/home" />}
                                 />
-                                <Route path="/home" element={<Home />} />
+                                <Route
+                                    path="/home"
+                                    element={<UnityProject />}
+                                />
                                 <Route path="/lecture" element={<LMSWrapper />}>
                                     <Route index element={<LectureList />} />
                                     {/* // pathvariable */}
@@ -65,7 +72,7 @@ export function LMS() {
                                     path="/lectures/:lectureId"
                                     element={<LectureDetail />}
                                 />
-                                <Route path="/search" element={<Search />} />
+                                {/* <Route path="/search" element={<Search />} /> */}
                                 <Route path="/cart" element={<Cart />} />
                                 <Route
                                     path="/mypage/*"
@@ -73,8 +80,8 @@ export function LMS() {
                                 />
 
                                 <Route
-                                    path="/community"
-                                    element={<Community />}
+                                    path="/community/*"
+                                    element={<CommunitySidebar />}
                                 />
 
                                 {/* <Route path="/login" element={<Login />} /> */}
@@ -85,6 +92,11 @@ export function LMS() {
                                     element={<AdminSidebar />}
                                 />
 
+                                {/* <Route path="/course/:userId/:lectureId" element={<Course />} /> */}
+                                <Route
+                                    path="/course/:userId/:lectureId"
+                                    element={<Course />}
+                                />
                                 <Route path="*" element={<Error />} />
                             </Routes>
                         </ContentBox>

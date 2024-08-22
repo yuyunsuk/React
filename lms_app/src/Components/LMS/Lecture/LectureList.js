@@ -24,6 +24,15 @@ const Container = styled.div`
   gap: 20px;
 `;
 
+const SearchBox = styled.div`
+  margin: 0 auto;
+`;
+
+const Input = styled.input`
+  width: 500px;
+  margin-right: 5px;
+`;
+
 const LectureContainer = styled.div`
   aspect-ratio: 1 / 0.7;
   border-radius: 8px;
@@ -119,25 +128,33 @@ const Button = styled.button`
 `;
 
 export function LectureList() {
-  const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
   const [LectureData, setLectureData] = useState([]);
   // const [category, setCategory] = useState(0); => 부모, 즉 LMSWrapper 로 이동시킴
   const [keyword, setKeyword] = useState("");
 
-  const { category, setCategory } = useContext(LMSContext); // 부모, 즉 LMSWrapper 에서 생성한 LMSContext 에서 꺼내서 사용
+  // const { category, setCategory } = useContext(LMSContext); // 부모, 즉 LMSWrapper 에서 생성한 LMSContext 에서 꺼내서 사용
+  const [inputValue, setInputValue] = useState("");
 
   // useNavigage 후크는 url 주소를 매개변수로 갖는 페이지 변경 함수를 리턴함!
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const LectureData = await getAllLecture();
-      setLectureData(LectureData);
-    };
+    lectureList();
+  }, [inputValue]);
 
-    fetchData();
-  }, []);
+  // 강의 데이터 & 검색
+  async function lectureList() {
+    if (!inputValue) {
+      const lectureAxios = await getAllLecture();
+      setLectureData(lectureAxios);
+    } else {
+      const lectureSearch = await getAllLecture(inputValue);
+      setLectureData(lectureSearch);
+    }
+  }
 
+  // 카테고리 검색
   const categories = [
     { category: "전체" },
     { category: "추천" },
@@ -177,7 +194,6 @@ export function LectureList() {
 
   return (
     <>
-      <h1>강의 리스트</h1>
       <Tab>
         {
           // {} 는 return 들어가야 되고, 아니면 ()
@@ -188,6 +204,14 @@ export function LectureList() {
           ))
         }
       </Tab>
+      <SearchBox>
+        <Input
+          placeholder="검색어를 입력해주세요"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+        <button onClick={() => lectureList(inputValue)}>Search</button>
+      </SearchBox>
       <Container>
         {LectureData &&
           LectureData.map((Lecture) => (
