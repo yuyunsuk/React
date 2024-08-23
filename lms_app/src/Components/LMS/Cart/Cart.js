@@ -55,17 +55,6 @@ export function Cart() {
   }
 
   // 장바구니 리스트
-  // async function cartList() {
-  //   try {
-  //     const SessionData = await getCurrentUser();
-  //     const userId = SessionData.userId;
-  //     setUserId(userId);
-  //     const cartList = JSON.parse(localStorage.getItem(userId));
-  //     setCart(cartList);
-  //   } catch (error) {
-  //     console.log("Cart List Error");
-  //   }
-  // }
   async function cartList() {
     try {
       const SessionData = await getCurrentUser();

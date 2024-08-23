@@ -23,6 +23,8 @@ import { LectureDetail } from "./Lecture/LectureDetail";
 
 import { UnityProject } from "../../Components/Unity/UnityProject";
 
+import { ModalNotices } from "./Community/ModalNotices";
+
 const Container = styled.div`
     width: 100vw;
     display: flex;

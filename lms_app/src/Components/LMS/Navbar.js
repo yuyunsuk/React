@@ -30,24 +30,25 @@ export function Navbar() {
     const [current, setCurrent] = useState(false);
     const [role, setRole] = useState(false);
 
-		// 로그인&로그아웃&관리자
-	  useEffect(() => {
-	    const currentCheck = async () => {
-	      try {
-	        const loginCurrent = await getCurrentUser();
-	        if (loginCurrent.userId) {
-	          setCurrent(!!loginCurrent);
-	        }
-	        if (loginCurrent.authority[0].authority == "ROLE_ADMIN") {
-	          setRole(true);
-	        }
-	      } catch (error) {
-	        console.log(error);
-	        setCurrent(false);
-	      }
-	    };
-	    currentCheck();
-	  }, []);
+    // 로그인 상태 & ROUE_ADMIN 확인
+    useEffect(() => {
+        currentChk();
+    }, []);
+
+    async function currentChk() {
+        try {
+            const loginCurrent = await getCurrentUser();
+            if (loginCurrent.userId) {
+                setCurrent(!!loginCurrent);
+            }
+            if (loginCurrent.authority[0].authority == "ROLE_ADMIN") {
+                setRole(true);
+            }
+        } catch (error) {
+            console.log(error);
+            setCurrent(false);
+        }
+    }
 
     return (
         <>
@@ -61,11 +62,11 @@ export function Navbar() {
                 <StyledLink to="/lecture">
                     <NavItem icon="ti ti-device-tv" name="강의"></NavItem>
                 </StyledLink>
-                
+
                 {/* <StyledLink to="/search">
                     <NavItem icon="ti ti-search" name="상세조회"></NavItem>
                 </StyledLink> */}
-                
+
                 <StyledLink to="/cart">
                     <NavItem
                         icon="ti ti-shopping-cart"
@@ -75,12 +76,12 @@ export function Navbar() {
                 <StyledLink to="/mypage/user">
                     <NavItem icon="ti ti-user" name="마이페이지"></NavItem>
                 </StyledLink>
-                <StyledLink to="/community/notices">
+                <StyledLink to="/community/ModalNotices">
                     <NavItem icon="ti ti-friends" name="커뮤니티"></NavItem>
                 </StyledLink>
 
-                {/* {isAuthenticated ? (
-                    <StyledLink to="/logout">
+                {current ? (
+                    <StyledLink to="/login">
                         <NavItem icon="ti ti-logout" name="로그아웃" />
                     </StyledLink>
                 ) : (
@@ -88,37 +89,21 @@ export function Navbar() {
                         <NavItem icon="ti ti-login" name="로그인" />
                     </StyledLink>
                 )}
-                {isAuthenticated && (
+                {role ? (
                     <StyledLink to="/admin/user">
                         <NavItem icon="ti ti-settings" name="관리자" />
                     </StyledLink>
-                )} */}
+                ) : (
+                    <></>
+                )}
 
-				        {current ? (
-				          <StyledLink to="/login">
-				            <NavItem icon="ti ti-logout" name="로그아웃" />
-				          </StyledLink>
-				        ) : (
-				          <StyledLink to="/login">
-				            <NavItem icon="ti ti-login" name="로그인" />
-				          </StyledLink>
-				        )}
-				        {role ? (
-				          <StyledLink to="/admin/user">
-				            <NavItem icon="ti ti-settings" name="관리자" />
-				          </StyledLink>
-				        ) : (
-				          <></>
-				        )}
-
-								{/* <StyledLink to="/login">
+                {/* <StyledLink to="/login">
                     <NavItem icon="ti ti-login" name="로그인/아웃" />
                 </StyledLink>
 
                 <StyledLink to="/admin/user">
                     <NavItem icon="ti ti-settings" name="관리자" />
                 </StyledLink> */}
-                
             </Container>
         </>
     );
