@@ -76,7 +76,7 @@ export function Navbar() {
                 <StyledLink to="/mypage/user">
                     <NavItem icon="ti ti-user" name="마이페이지"></NavItem>
                 </StyledLink>
-                <StyledLink to="/community/ModalNotices">
+                <StyledLink to="/community/Notices">
                     <NavItem icon="ti ti-friends" name="커뮤니티"></NavItem>
                 </StyledLink>
 

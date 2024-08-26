@@ -5,6 +5,10 @@ import styled from "styled-components";
 import Modal from "react-modal";
 import { ModalNotices } from "../LMS/Community/ModalNotices.js";
 
+import { LectureList } from "../LMS/Lecture/LectureList.js";
+
+import { UserManagement } from "../LMS/Admin/UserManagement.js";
+
 import axios from "axios";
 
 // 게임을 로드할 화면을 만듬
@@ -71,20 +75,6 @@ export function UnityProject() {
     //     window.open("http://localhost:3000/community/notices", "_blank");
     // }
 
-    // Unity에서 호출될 JavaScript 함수
-    function handleOpenReactWindowNotices(romeName) {
-        // 예를 들어, 새로운 브라우저 창을 열도록 구현할 수 있습니다.
-        // React 애플리케이션의 URL로 새로운 탭을 열기
-
-        if (romeName == "공지사항") {
-            // Unity 게임을 일시 정지
-            sendMessage("Player", "PauseGame");
-            window.alert("Modal Open 공지사항!!! 전달됨");
-            setModalOpen(true);
-            setModalReturn(() => ModalNotices); // React component function
-        }
-    }
-
     useEffect(() => {
         addEventListener(
             "OpenReactWindowNotices",
@@ -96,7 +86,21 @@ export function UnityProject() {
                 handleOpenReactWindowNotices
             );
         };
-    }, [addEventListener, removeEventListener]);
+    }, []);
+
+    // Unity에서 호출될 JavaScript 함수
+    function handleOpenReactWindowNotices(romeName) {
+        // 예를 들어, 새로운 브라우저 창을 열도록 구현할 수 있습니다.
+        // React 애플리케이션의 URL로 새로운 탭을 열기
+
+        if (romeName == "공지사항") {
+            window.alert("Modal Open 공지사항!!! 전달됨");
+            setModalOpen(true);
+            // setModalReturn(() => ModalNotices); // React component function
+            // setModalReturn(() => UserManagement); // React component function
+            setModalReturn(() => LectureList); // React component function
+        }
+    }
 
     useEffect(() => {
         addEventListener("GameOver", handleGameOver);
@@ -128,9 +132,15 @@ export function UnityProject() {
 
                 const jsonData = JSON.stringify(response.data);
 
+                window.alert("React jsonData: " + jsonData);
+
                 // Unity로 데이터 전송
                 // sendMessage("DataReceiverObject", "ReceiveJsonData", jsonData);
-                sendMessage("DataReceiver", "ReceiveJsonData", jsonData);
+                // sendMessage("DataReceiver", "ReceiveJsonData", jsonData);
+
+                window.alert("SendMessage Start!!!");
+
+                sendMessage("Player", "ReceiveJsonData", jsonData);
             })
             .catch((error) => {
                 console.log("에러 발생: ", error);
@@ -141,10 +151,12 @@ export function UnityProject() {
         <>
             <h1>UnityProject Game</h1>
             <button onClick={() => setPlayingGame(true)}>Start Game</button>
-            <button onClick={() => sendMessage("Player", "PauseGame")}>
+            <button onClick={() => sendMessage("PortalManager", "PauseGame")}>
                 Pause Game
             </button>
-            <button onClick={() => sendMessage("Player", "ContinueGame")}>
+            <button
+                onClick={() => sendMessage("PortalManager", "ContinueGame")}
+            >
                 Continue Game
             </button>
             <button onClick={() => sendMessage("Player", "Attack")}>
@@ -167,24 +179,41 @@ export function UnityProject() {
                         onClick={(e) => {
                             if (e.target === modalBackground.current) {
                                 setModalOpen(false);
-                                sendMessage("Player", "ContinueGame");
+                                sendMessage("PortalManager", "ContinueGame");
                             }
                         }}
                     >
                         {/* <div className={"modal-content"}> */}
                         <Modal
                             isOpen={modalOpen}
-                            onRequestClose={() => setModalOpen(false)}
+                            onRequestClose={() => {
+                                setModalOpen(false);
+                            }}
                             style={customStyles} // 스타일을 적용합니다.
                             contentLabel="Modal Test"
                         >
+                            <span
+                                className="close"
+                                onClick={() => {
+                                    setModalOpen(false);
+                                    sendMessage(
+                                        "PortalManager",
+                                        "ContinueGame"
+                                    );
+                                }}
+                            >
+                                &times;
+                            </span>
                             <h1>리액트로 모달</h1>
                             {modalReturn && React.createElement(modalReturn)}
                             <br></br>
                             <button
                                 onClick={() => {
                                     setModalOpen(false);
-                                    sendMessage("Player", "ContinueGame");
+                                    sendMessage(
+                                        "PortalManager",
+                                        "ContinueGame"
+                                    );
                                 }}
                             >
                                 모달 닫기

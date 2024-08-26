@@ -35,7 +35,10 @@ export function Login({ onSignup }) {
                 <input
                     type="text"
                     value={userId}
-                    onChange={(e) => setUserId(e.target.value)}
+                    onChange={(e) => {
+                        setUserId(e.target.value);
+                        e.stopPropagation();
+                    }}
                     placeholder="아이디"
                 />
                 {/* <label>아이디</label> */}
