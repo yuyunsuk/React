@@ -11,6 +11,7 @@ import { LoginMain } from "./Login/LoginMain";
 import { Error } from "./Error";
 import { Lecture } from "./Lecture/Lecture";
 import { LectureList } from "./Lecture/LectureList";
+import { LectureListModal } from "./Lecture/LectureListModal"; // Unity Modal 테스트
 import { Search } from "./Search/Search";
 import styled from "styled-components";
 import { LMSWrapper } from "./LMSWrapper";
@@ -56,7 +57,7 @@ export function LMS() {
                                 {/* <Route path="/" element={<Home />} /> */}
                                 <Route
                                     path="/"
-                                    element={<Navigate replace to="/home" />}
+                                    element={<Navigate replace to="/login" />}
                                 />
                                 <Route
                                     path="/home"
