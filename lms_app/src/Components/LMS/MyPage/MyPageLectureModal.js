@@ -1,4 +1,7 @@
-﻿import React, { useState, useEffect } from "react";
+﻿import Modal from "react-modal";
+import { useOutletContext } from "react-router-dom";
+
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../../Styles/MyPageLecture.css";
 
@@ -6,6 +9,28 @@ import "../../../Styles/MyPageLecture.css";
 const urlCurrent = "http://localhost:8080/user/current"; // 세션 조회
 const urlRegi = "http://localhost:8080/course/registration"; // 모든 강의등록 조회(All)
 const urlProgress = "http://localhost:8080/progress/getAllLectureProgress"; // 진도 조회
+
+// Sub Modal
+
+// React Modal의 루트 엘리먼트를 설정합니다
+Modal.setAppElement("#root");
+
+const customStyles = {
+    content: {
+        top: "50%",
+        left: "50%",
+        right: "auto",
+        bottom: "auto",
+        transform: "translate(-50%, -50%)",
+        width: "1300px", // 모달의 너비를 설정합니다. (기존 width)
+        height: "800px", // 모달의 높이를 설정합니다. (기존 height)
+        padding: "20px",
+        borderRadius: "10px",
+    },
+    overlay: {
+        backgroundColor: "rgba(0, 0, 0, 0.5)", // 오버레이의 배경색을 설정합니다.
+    },
+};
 
 export function MyPageLectureModal() {
     const [userId, setUserId] = useState(null); // User ID 데이터
@@ -203,16 +228,23 @@ export function MyPageLectureModal() {
 
                             // 현재 URL에서 '/mypage/'를 제거
                             const baseUrl = window.location.href.replace(
-                                "/mypage/lecture",
+                                "/home",
                                 ""
                             );
 
-                            // 새로운 경로로 변경
-                            // window.location.href = `${baseUrl}/course/${courseUserId}/${courseLectureId}`;
-                            window.open(
-                                `${baseUrl}/course/${courseUserId}/${courseLectureId}`,
-                                "_blank"
-                            );
+                            // const modalUrl = `${baseUrl}/course/${courseUserId}/${courseLectureId}`;
+                            const modalUrl = `/course/${courseUserId}/${courseLectureId}`;
+
+                            // window.alert("modalUrl: " + modalUrl);
+
+                            // // 새로운 경로로 변경
+                            // // window.location.href = `${baseUrl}/course/${courseUserId}/${courseLectureId}`;
+                            // window.open(
+                            //     `${baseUrl}/course/${courseUserId}/${courseLectureId}`,
+                            //     "_blank"
+                            // );
+
+                            openModal(modalUrl);
                         });
 
                         document
@@ -383,6 +415,21 @@ export function MyPageLectureModal() {
             // studying, cancel, complete
             fetchRegistrationData(tab); // 강의 등록 정보 조회
         }
+    };
+
+    /* Sub Modal 관련 */
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalReturn, setModalReturn] = useState(null);
+    const [modalContent, setModalContent] = useState(null);
+
+    const openModal = (modalUrl) => {
+        setModalContent(modalUrl);
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+        setModalContent(null);
     };
 
     return (
@@ -594,6 +641,47 @@ export function MyPageLectureModal() {
                     )}
                 </div>
             </div>
+
+            {/* 서브 모달 */}
+            <Modal
+                isOpen={modalOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Lecture Details"
+            >
+                <span
+                    className="close"
+                    onClick={closeModal}
+                    style={{
+                        cursor: "pointer",
+                        fontSize: "1.5rem",
+                        position: "absolute",
+                        top: "10px",
+                        right: "10px",
+                    }}
+                >
+                    &times;
+                </span>
+                <div
+                    className="subModalContent"
+                    style={{
+                        width: "1240px",
+                        height: "740px",
+                        overflow: "hidden",
+                    }}
+                >
+                    {/* 모달 콘텐츠를 동적으로 렌더링할 수 있습니다 */}
+                    {modalContent ? (
+                        <iframe
+                            src={modalContent}
+                            style={{ width: "100%", height: "100%" }}
+                            title="Lecture Details"
+                        />
+                    ) : (
+                        <p>Loading...</p>
+                    )}
+                </div>
+            </Modal>
         </div>
     );
 }

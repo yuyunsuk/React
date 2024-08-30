@@ -72,7 +72,7 @@ export function UnityProject() {
     const [score, setScore] = useState();
 
     const [modalOpen, setModalOpen] = useState(false);
-    const modalBackground = useRef();
+    // const modalBackground = useRef();
 
     const [modalReturn, setModalReturn] = useState(null);
 
@@ -116,6 +116,30 @@ export function UnityProject() {
         // React 애플리케이션의 URL로 새로운 탭을 열기
 
         setModalOpen(true);
+
+        // Test LectureListModal & MyPageLectureModal
+        if (romeName == "공지사항") {
+            // setModalReturn(() => LectureList); // React component function
+            setModalReturn(() => LectureListModal); // => 새로운 브라우저 창 열기
+        } else if (romeName == "이벤트") {
+            setModalReturn(() => MyPageLectureModal); // => 새로운 브라우저 창 열기
+        }
+    }
+
+    // Unity에서 호출될 JavaScript 함수
+    function handleOpenReactWindow_Origin(romeName) {
+        // 예를 들어, 새로운 브라우저 창을 열도록 구현할 수 있습니다.
+        // React 애플리케이션의 URL로 새로운 탭을 열기
+
+        setModalOpen(true);
+
+        // Test LectureListModal & MyPageLectureModal
+        if (romeName == "공지사항") {
+            // setModalReturn(() => LectureList); // React component function
+            setModalReturn(() => LectureListModal); // => 새로운 브라우저 창 열기
+        } else if (romeName == "이벤트") {
+            setModalReturn(() => MyPageLectureModal); // => 새로운 브라우저 창 열기
+        }
 
         // Admin
         if (romeName == "공지사항") {
@@ -245,15 +269,15 @@ export function UnityProject() {
                 {modalOpen && (
                     <div
                         className={"modal-container"}
-                        ref={modalBackground}
-                        onClick={(e) => {
-                            /* 모달 밖의 부분 클릭시 Close */
-                            if (e.target === modalBackground.current) {
-                                setModalOpen(false);
-                                sendMessage("PortalManager", "ContinueGame");
-                                RequestFocus();
-                            }
-                        }}
+                        // ref={modalBackground}
+                        // onClick={(e) => {
+                        //     // 모달 밖의 부분 클릭시 Close
+                        //     if (e.target === modalBackground.current) {
+                        //         setModalOpen(false);
+                        //         sendMessage("PortalManager", "ContinueGame");
+                        //         RequestFocus();
+                        //     }
+                        //}}
                     >
                         {/* <div className={"modal-content"}> */}
                         <Modal
@@ -281,8 +305,8 @@ export function UnityProject() {
                             {/* <h1>리액트로 모달</h1> */}
                             {modalReturn && React.createElement(modalReturn)}
                             <br></br>
-                            <button
-                                /* [모달 닫기] 버튼 클릭시 Close */
+                            {/* <button
+                                // [모달 닫기] 버튼 클릭시 Close
                                 onClick={() => {
                                     setModalOpen(false);
                                     sendMessage(
@@ -293,7 +317,7 @@ export function UnityProject() {
                                 }}
                             >
                                 모달 닫기
-                            </button>
+                            </button> */}
                         </Modal>
                         {/* </div> */}
                     </div>

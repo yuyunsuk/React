@@ -1,4 +1,9 @@
-import { useState, useEffect, useContext } from "react";
+import Modal from "react-modal";
+// import { useNavigate } from "react-router-dom";
+
+import { LectureDetail } from "./LectureDetail";
+
+import React, { useState, useEffect } from "react";
 import {
     getGenre,
     getAllLectures,
@@ -9,14 +14,16 @@ import {
     setGenreListOfMovie,
     IMG_PATH,
 } from "../api";
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
 import { LMSContext, LMSWrapper } from "../LMSWrapper";
 import { getCategory } from "../../../Api/CategoryApi/CategoryApi";
 import {
     getAllLecture,
     getCategoryLecture,
 } from "../../../Api/LectureApi/LectureApi";
+
+import styled from "styled-components";
+
+import "../../../Styles/noMenu.css";
 
 const Container = styled.div`
     display: grid;
@@ -127,21 +134,55 @@ const Button = styled.button`
     }
 `;
 
+// Sub Modal
+
+// React Modal의 루트 엘리먼트를 설정합니다
+Modal.setAppElement("#root");
+
+const customStyles = {
+    content: {
+        top: "50%",
+        left: "50%",
+        right: "auto",
+        bottom: "auto",
+        transform: "translate(-50%, -50%)",
+        width: "1300px", // 모달의 너비를 설정합니다. (기존 width)
+        height: "800px", // 모달의 높이를 설정합니다. (기존 height)
+        padding: "20px",
+        borderRadius: "10px",
+    },
+    overlay: {
+        backgroundColor: "rgba(0, 0, 0, 0.5)", // 오버레이의 배경색을 설정합니다.
+    },
+};
+
 export function LectureListModal() {
+    // Hooks 호출: 항상 최상위에서 호출되어야 합니다
     // const [data, setData] = useState(null);
     const [LectureData, setLectureData] = useState([]);
     // const [category, setCategory] = useState(0); => 부모, 즉 LMSWrapper 로 이동시킴
     const [keyword, setKeyword] = useState("");
 
-    // const { category, setCategory } = useContext(LMSContext); // 부모, 즉 LMSWrapper 에서 생성한 LMSContext 에서 꺼내서 사용
+    // const { category, setCategory, toggleModal } = useContext(LMSContext); // 부모, 즉 LMSWrapper 에서 생성한 LMSContext 에서 꺼내서 사용
     const [inputValue, setInputValue] = useState("");
 
+    /* Sub Modal 관련 */
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalReturn, setModalReturn] = useState(null);
+    const [modalContent, setModalContent] = useState(null);
+
     // useNavigage 후크는 url 주소를 매개변수로 갖는 페이지 변경 함수를 리턴함!
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     useEffect(() => {
         lectureList();
     }, [inputValue]);
+
+    useEffect(() => {
+        if (keyword) {
+            categoryList(keyword);
+        }
+    }, [keyword]);
 
     // 강의 데이터 & 검색
     async function lectureList() {
@@ -181,16 +222,22 @@ export function LectureListModal() {
         }
     }
 
-    useEffect(() => {
-        if (keyword) {
-            categoryList(keyword);
-        }
-    }, [keyword]);
-
     async function categoryList(keyword) {
         const categoryList = await getCategoryLecture(keyword);
         setLectureData(categoryList);
     }
+
+    /* Sub Modal 관련 */
+    const openModal = (lectureId) => {
+        setModalContent(`/lectures/${lectureId}`);
+        // setModalReturn(() => `LectureDetail ${lectureId}`); // => 새로운 브라우저 창 열기
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+        setModalContent(null);
+    };
 
     return (
         <>
@@ -218,12 +265,19 @@ export function LectureListModal() {
                         <LectureContainer
                             key={Lecture.lectureId}
                             onClick={() => {
-                                // navigate(`/lectures/${Lecture.lectureId}`);
-                                window.open(
-                                    `http://localhost:3000/lectures/${Lecture.lectureId}`,
-                                    "_blank"
-                                );
-                            }}
+                                // window.alert("Lecture.lectureId: " + Lecture.lectureId);
+                                openModal(Lecture.lectureId);
+                            }} // Modal Open
+
+                            // onClick={() => {
+                            //     // navigate(`/lectures/${Lecture.lectureId}`);
+                            //     // window.open(
+                            //     //     `http://localhost:3000/lectures/${Lecture.lectureId}`,
+                            //     //     "_blank"
+                            //     // );
+
+                            //     modalReturn = `/lectures/${Lecture.lectureId}`;
+                            // }}
                         >
                             <LectureImg src={Lecture.imagePath}></LectureImg>
                             {/* <Text className="content">{Lecture.lectureName}</Text>
@@ -244,6 +298,47 @@ export function LectureListModal() {
                         </LectureContainer>
                     ))}
             </Container>
+
+            {/* 서브 모달 */}
+            <Modal
+                isOpen={modalOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+                contentLabel="Lecture Details"
+            >
+                <span
+                    className="close"
+                    onClick={closeModal}
+                    style={{
+                        cursor: "pointer",
+                        fontSize: "1.5rem",
+                        position: "absolute",
+                        top: "10px",
+                        right: "10px",
+                    }}
+                >
+                    &times;
+                </span>
+                <div
+                    className="subModalContent"
+                    style={{
+                        width: "1240px",
+                        height: "740px",
+                        overflow: "hidden",
+                    }}
+                >
+                    {/* 모달 콘텐츠를 동적으로 렌더링할 수 있습니다 */}
+                    {modalContent ? (
+                        <iframe
+                            src={modalContent}
+                            style={{ width: "100%", height: "100%" }}
+                            title="Lecture Details"
+                        />
+                    ) : (
+                        <p>Loading...</p>
+                    )}
+                </div>
+            </Modal>
         </>
     );
 }

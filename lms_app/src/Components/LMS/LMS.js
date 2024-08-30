@@ -1,3 +1,6 @@
+// 모달 관련 추가
+import React, { useState } from "react";
+
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { Home } from "./Home/Home";
@@ -11,7 +14,7 @@ import { LoginMain } from "./Login/LoginMain";
 import { Error } from "./Error";
 import { Lecture } from "./Lecture/Lecture";
 import { LectureList } from "./Lecture/LectureList";
-import { LectureListModal } from "./Lecture/LectureListModal"; // Unity Modal 테스트
+// import { LectureListModal } from "./Lecture/LectureListModal"; // Unity Modal 테스트
 import { Search } from "./Search/Search";
 import styled from "styled-components";
 import { LMSWrapper } from "./LMSWrapper";
@@ -21,6 +24,7 @@ import { MyPageSidebar } from "./MyPage/MyPageSidebar";
 import { CommunitySidebar } from "./Community/CommunitySidebar";
 
 import { LectureDetail } from "./Lecture/LectureDetail";
+
 import { UnityProject } from "../../Components/Unity/UnityProject";
 
 const Container = styled.div`
@@ -46,7 +50,7 @@ export function LMS() {
             <BrowserRouter>
                 <Container>
                     <Section>
-                        <Menu>
+                        <Menu id="topMenu">
                             <Navbar />
                         </Menu>
                         <ContentBox>
@@ -68,6 +72,7 @@ export function LMS() {
                                     {/* // pathvariable */}
                                     <Route path=":id" element={<Lecture />} />
                                 </Route>
+
                                 <Route
                                     path="/lectures/:lectureId"
                                     element={<LectureDetail />}
