@@ -4,7 +4,6 @@ import { Route, Routes, Link, Outlet, useLocation } from "react-router-dom";
 
 import { MyPageUser } from "./MyPageUser";
 import { MyPageLecture } from "./MyPageLecture";
-import { MyPageLectureModal } from "./MyPageLectureModal";
 import { MyPageUserDelete } from "./MyPageUserDelete";
 
 import { AdminSidebar } from "../Admin/AdminSidebar";

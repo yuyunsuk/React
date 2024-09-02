@@ -40,11 +40,6 @@ a:hover {
     width: 330px;
     float: left;
     margin-right: 40px;
-
-    /* 아래 3줄 추가 */
-    background-color: var(--skin-bg2); /* 배경색 추가 */
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
 }
 
 .nav_tit {
@@ -61,9 +56,6 @@ a:hover {
     border-radius: 15px;
     border: 1px solid #dcdcdc;
     padding: 20px;
-
-    /* 아래 추가 */
-    background-color: var(--skin-bg); /* 내부 배경색 추가 */
 }
 
 .content_wrap {
@@ -89,21 +81,12 @@ a:hover {
     padding-left: 29px;
     line-height: 49px;
     border-radius: 5px;
-    /* background-color: #e6e7eb; */
-
-    /* 아래 수정 */
-    background-color: #f8f9fa; /* 밝은 배경색 */
+    background-color: #e6e7eb;
     font-size: 20px;
-
-    /* 아래 코드 추가 */
-    color: #333; /* 기본 텍스트 색상 */
 
     display: flex;
     justify-content: space-between;
     padding-right: 29px;
-
-    /* 아래 코드 추가 */
-    transition: background-color 0.3s, color 0.3s; /* 부드러운 전환 효과 */
 }
 
 /* .sub_nav > li > a:hover:  => .sub_nav 클래스 하위 <li> 요소의 <a> 요소에 마우스를 올렸을 때(:hover 상태) 적용 */
@@ -114,8 +97,4 @@ a:hover {
     color: #fff;
 }
 
-/* 아래 코드 추가 스타일 */
-.sub_nav > li > a:active {
-    background-color: var(--skin03); /* 클릭 시 색상 조정 */
-}
 /* EOD : sub_Layout */
