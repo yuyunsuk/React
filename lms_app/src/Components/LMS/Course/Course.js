@@ -196,6 +196,7 @@ export function Course() {
   const [learning, setlearing] = useState([]);
   const [teacher, setTeacher] = useState([]);
   const [lecture, setLecture] = useState([]);
+  
   const [progress, setProgress] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVideoPath, setSelectedVideoPath] = useState("");
