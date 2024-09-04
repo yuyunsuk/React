@@ -40,7 +40,7 @@ import axios from "axios";
 const Container = styled.div`
     width: 1500px;
     height: 800px;
-    margin: auto;
+    margin: 80px auto;
     border: 1px solid gray;
 `;
 
@@ -142,6 +142,12 @@ export function UnityProject() {
             setModalReturn(() => QA); // React component function
         } else if (romeName == "장바구니") {
             setModalReturn(() => Cart); // React component function
+        }
+
+        if (romeName == "로그아웃") {
+            setModalReturn(() => {
+                window.location.href = "http://localhost:3000/Login";
+            }); // React component function
         }
     }
 
