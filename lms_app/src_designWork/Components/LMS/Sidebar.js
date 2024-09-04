@@ -85,13 +85,15 @@ export function LeftSidebar() {
                                 <TextStyle>강의보기</TextStyle>
                             </Group>
                         </SideContant>
-                        <SideContant onClick={() => navigate("/community/*")}>
+                        <SideContant
+                            onClick={() => navigate("/community/Notices")}
+                        >
                             <Group>
                                 <UserIcon></UserIcon>
                                 <TextStyle>커뮤니티</TextStyle>
                             </Group>
                         </SideContant>
-                        <SideContant onClick={() => navigate("/admin/*")}>
+                        <SideContant onClick={() => navigate("/admin/user")}>
                             <Group>
                                 <UserIcon></UserIcon>
                                 <TextStyle>Admin</TextStyle>
