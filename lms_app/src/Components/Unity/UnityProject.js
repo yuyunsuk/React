@@ -127,6 +127,12 @@ export function UnityProject() {
 
         setModalOpen(true);
 
+        // Test 작업 중
+        // if (romeName == "공지사항") {
+        //     // setModalReturn(() => LectureList); // React component function
+        //     setModalReturn(() => LectureListModal); // => 새로운 브라우저 창 열기
+        // }
+
         // MyPage & 공지사항
         if (romeName == "회원정보") {
             setModalReturn(() => MyPageUser); // React component function
@@ -142,9 +148,7 @@ export function UnityProject() {
             setModalReturn(() => QA); // React component function
         } else if (romeName == "장바구니") {
             setModalReturn(() => Cart); // React component function
-        }
-
-        if (romeName == "로그아웃") {
+        } else if (romeName == "로그아웃") {
             setModalReturn(() => {
                 window.location.href = "http://localhost:3000/Login";
             }); // React component function
