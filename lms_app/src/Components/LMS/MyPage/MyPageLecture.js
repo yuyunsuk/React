@@ -22,29 +22,6 @@ const AnimationBox = styled.div`
     animation: ${fadeIn} 0.6s ease-out;
 `;
 
-const UserLectureBox = styled.div`
-    padding: 30px 100px 50px 100px;
-    width: 100%;
-    /* height: 500px; */
-    /* background-color: whitesmoke; */
-    background-color: transparent;
-`;
-
-const UserEducationActivityTitle = styled.div`
-    font-size: 26px;
-    font-family: 500;
-    margin-bottom: 30px;
-    margin-left: 55px;
-    color: #556b2f;
-`;
-
-const GraphYAxisSpan = styled.span`
-    position: relative;
-    top: -12px;
-    left: -18px;
-    color: white;
-`;
-
 export function MyPageLecture() {
     const [userId, setUserId] = useState(null); // User ID 데이터
     const [lectureData, setLectureData] = useState([]); // 강의 상태별 Count 데이터
@@ -420,10 +397,8 @@ export function MyPageLecture() {
             <div className="main-content">
                 {/* <div className="root"> */}
                 <div className="main-top">
-                    <UserLectureBox>
-                        <UserEducationActivityTitle>
-                            나의 학습활동
-                        </UserEducationActivityTitle>
+                    <div className="userLecture-box">
+                        <h2 className="userEducationActivityTitle">나의학습</h2>
                         <div className="lectureMenuBox">
                             <div
                                 className={`lecturemenu ${
@@ -480,9 +455,7 @@ export function MyPageLecture() {
                                         <ul className="graphY-axis">
                                             {[...Array(11).keys()].map((i) => (
                                                 <li key={i}>
-                                                    <GraphYAxisSpan>
-                                                        {10 - i}
-                                                    </GraphYAxisSpan>
+                                                    <span>{10 - i}</span>
                                                 </li>
                                             ))}
                                         </ul>
@@ -628,7 +601,7 @@ export function MyPageLecture() {
                                 </div>
                             </div>
                         )}
-                    </UserLectureBox>
+                    </div>
                 </div>
             </div>
         </AnimationBox>
