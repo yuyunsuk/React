@@ -396,3 +396,172 @@ export function LectureSideIcon() {
     </>
   );
 }
+
+export function AdminUserIcon() {
+  return (
+    <>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="40"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#bbbece"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon icon-tabler icons-tabler-outline icon-tabler-password-user"
+        style={{ backgroundColor: "transparent" }}
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M12 17v4" />
+        <path d="M10 20l4 -2" />
+        <path d="M10 18l4 2" />
+        <path d="M5 17v4" />
+        <path d="M3 20l4 -2" />
+        <path d="M3 18l4 2" />
+        <path d="M19 17v4" />
+        <path d="M17 20l4 -2" />
+        <path d="M17 18l4 2" />
+        <path d="M9 6a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+        <path d="M7 14a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2" />
+      </svg>
+    </>
+  );
+}
+
+export function AdminSettingIcon() {
+  return (
+    <>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="40"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#bbbece"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon icon-tabler icons-tabler-outline icon-tabler-table-options"
+        style={{ backgroundColor: "transparent" }}
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M12 21h-7a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v7" />
+        <path d="M3 10h18" />
+        <path d="M10 3v18" />
+        <path d="M19.001 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+        <path d="M19.001 15.5v1.5" />
+        <path d="M19.001 21v1.5" />
+        <path d="M22.032 17.25l-1.299 .75" />
+        <path d="M17.27 20l-1.3 .75" />
+        <path d="M15.97 17.25l1.3 .75" />
+        <path d="M20.733 20l1.3 .75" />
+      </svg>
+    </>
+  );
+}
+
+export function HomeIcon() {
+  return (
+    <>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="40"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#bbbece"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon icon-tabler icons-tabler-outline icon-tabler-home"
+        style={{ backgroundColor: "transparent" }}
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M5 12l-2 0l9 -9l9 9l-2 0" />
+        <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+        <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+      </svg>
+    </>
+  );
+}
+
+export function ModifyUserIcon() {
+  return (
+    <>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="40"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#bbbece"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon icon-tabler icons-tabler-outline icon-tabler-user-edit"
+        style={{ backgroundColor: "transparent" }}
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+        <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5" />
+        <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z" />
+      </svg>
+    </>
+  );
+}
+
+export function RemoveUserIcon() {
+  return (
+    <>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="40"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#bbbece"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon icon-tabler icons-tabler-outline icon-tabler-user-x"
+        style={{ backgroundColor: "transparent" }}
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+        <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5" />
+        <path d="M22 22l-5 -5" />
+        <path d="M17 22l5 -5" />
+      </svg>
+    </>
+  );
+}
+
+export function StudyIcon() {
+  return (
+    <>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="40"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#bbbece"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="icon icon-tabler icons-tabler-outline icon-tabler-list-details"
+        style={{ backgroundColor: "transparent" }}
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M13 5h8" />
+        <path d="M13 9h5" />
+        <path d="M13 15h8" />
+        <path d="M13 19h5" />
+        <path d="M3 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+        <path d="M3 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
+      </svg>
+    </>
+  );
+}

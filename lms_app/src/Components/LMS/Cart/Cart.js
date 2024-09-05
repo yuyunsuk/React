@@ -3,11 +3,24 @@ import { getCurrentUser } from "../../../Api/UserApi/UserApi";
 import { saveCourseRegistration } from "../../../Api/CourseApi/CourseApi";
 import { Navbar } from "../Navbar";
 import { LeftSidebar, RightSidebar } from "../Sidebar";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import { useNavigate } from "react-router-dom";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 const Container = styled.div`
   padding: 176px 275px 0 240px;
   height: 2000px;
+  animation: ${fadeIn} 0.6s ease-out;
 `;
 
 const CartTitle = styled.p`
@@ -106,6 +119,39 @@ const RemoveBtn = styled.button`
   }
 `;
 
+const CartNoneBox = styled.div`
+  width: 100%;
+  margin-top: 50px;
+`;
+
+const CartNone = styled.div`
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+`;
+
+const CartNoneImg = styled.img`
+  width: 100%;
+  animation: circlemove 1.5s infinite linear;
+
+  @keyframes circlemove {
+    0%,
+    100% {
+      transform: translate(0%, 3%);
+    }
+    50% {
+      transform: translate(0%, 0%);
+    }
+  }
+`;
+
+const CartNoneText = styled.p`
+  color: #fff;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 800;
+`;
+
 const CourseBtn = styled.button`
   position: absolute;
   right: 10px;
@@ -132,12 +178,43 @@ const CourseBtn = styled.button`
   }
 `;
 
+const LectureMoveBox = styled.div`
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+`;
+
+const LectureMoveBtn = styled.button`
+  width: 120px;
+  padding: 10px 20px;
+  background-color: #1e90ff;
+  color: #fff;
+  border: 2px solid #1f2025;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    background-color: #444;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    background-color: #1c75d1;
+    transform: scale(1);
+  }
+`;
+
 export function Cart() {
   const [cart, setCart] = useState([]);
   const [checkedItems, setCheckedItems] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [userId, setUserId] = useState("");
   const [cartData, setCartData] = useState(false);
+  const navigate = useNavigate("");
 
   useEffect(() => {
     cartList();
@@ -269,17 +346,20 @@ export function Cart() {
           <Chk></Chk>
           <CartItem></CartItem>
         </CartForm> */}
-        <ChkAll>
-          <Chk
-            type="checkbox"
-            checked={selectAll}
-            onChange={handleSelectAllChange}
-          />
-          <p style={{ color: "#fff", display: "inline-block" }}>전체선택</p>
-        </ChkAll>
+
         <div>
           {cart.length > 0 ? (
             <>
+              <ChkAll>
+                <Chk
+                  type="checkbox"
+                  checked={selectAll}
+                  onChange={handleSelectAllChange}
+                />
+                <p style={{ color: "#fff", display: "inline-block" }}>
+                  전체선택
+                </p>
+              </ChkAll>
               {cart.map((lecture, index) => (
                 <CartForm key={index}>
                   <Chk
@@ -302,15 +382,25 @@ export function Cart() {
                   </CartContent>
                 </CartForm>
               ))}
+              <RemoveBtnBox>
+                <RemoveBtn onClick={cartRemove}>삭제</RemoveBtn>
+                <CourseBtn onClick={courseAdd}>수강하기</CourseBtn>
+              </RemoveBtnBox>
             </>
           ) : (
-            <p>장바구니가 비었습니다.</p>
+            <CartNoneBox>
+              <CartNone>
+                <CartNoneImg src="/image/Cart.png"></CartNoneImg>
+              </CartNone>
+              <CartNoneText>장바구니가 비었습니다</CartNoneText>
+              <LectureMoveBox>
+                <LectureMoveBtn onClick={() => navigate("/lecture")}>
+                  강의보기
+                </LectureMoveBtn>
+              </LectureMoveBox>
+            </CartNoneBox>
           )}
         </div>
-        <RemoveBtnBox>
-          <RemoveBtn onClick={cartRemove}>삭제</RemoveBtn>
-          <CourseBtn onClick={courseAdd}>수강하기</CourseBtn>
-        </RemoveBtnBox>
       </Container>
     </>
   );

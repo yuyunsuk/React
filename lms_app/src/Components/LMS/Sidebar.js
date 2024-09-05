@@ -16,6 +16,8 @@ import { getCurrentUser } from "../../Api/UserApi/UserApi";
 import { getLectureStatusCountJPQL } from "../../Api/CourseApi/CourseApi";
 // import "https://use.fontawesome.com/releases/v5.6.1/css/all.css";
 
+import { CommunitySidebar } from "./Community/CommunitySidebar"; // CommunitySidebar 임포트
+
 const LeftSideContainer = styled.div`
     box-sizing: border-box;
     width: 240px;
@@ -72,6 +74,13 @@ const Group = styled.div`
 export function LeftSidebar() {
     const navigate = useNavigate();
 
+    // Community 관련 추가
+    const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] =
+        useState(false); // 드롭다운 상태 관리
+    const toggleCommunityDropdown = () => {
+        setIsCommunityDropdownOpen(!isCommunityDropdownOpen); // 드롭다운 상태 변경
+    };
+
     return (
         <>
             <LeftSideContainer>
@@ -86,14 +95,24 @@ export function LeftSidebar() {
                                 <TextStyle>강의보기</TextStyle>
                             </Group>
                         </SideContant>
-                        <SideContant
+                        {/* <SideContant
                             onClick={() => navigate("/community/notices")}
                         >
                             <Group>
                                 <UserIcon></UserIcon>
                                 <TextStyle>커뮤니티</TextStyle>
                             </Group>
+                        </SideContant> */}
+                        <SideContant onClick={toggleCommunityDropdown}>
+                            {" "}
+                            {/* 드롭다운 토글 */}
+                            <Group>
+                                <UserIcon></UserIcon>
+                                <TextStyle>커뮤니티</TextStyle>
+                            </Group>
                         </SideContant>
+                        {isCommunityDropdownOpen && <CommunitySidebar />}{" "}
+                        {/* 드롭다운 상태에 따라 CommunitySidebar 표시 */}
                         <SideContant onClick={() => navigate("/home")}>
                             <Group>
                                 <GameIcon></GameIcon>
@@ -224,7 +243,6 @@ export function RightSidebar() {
                     </CartForm>
                 </CartBox>
             </RightSideContainer>
-            ;
         </>
     );
 }

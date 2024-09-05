@@ -10,6 +10,7 @@ import {
   SettingIcon,
   UserInfoIcon,
 } from "../../Utils/svg";
+import axios from "axios";
 // import { useAuth } from "./AuthContext";
 
 const Container = styled.nav`
@@ -41,6 +42,19 @@ const StyledLink = styled(Link)`
   position: relative;
 `;
 
+const LogoutBox = styled.div`
+  height: 44px;
+  padding: 0 15px;
+  font-size: 14px;
+  line-height: 44px;
+  border-radius: 8px;
+  background-color: transparent;
+  transition: all 0.1s;
+  color: #9da2b9;
+  position: relative;
+  cursor: pointer;
+`;
+
 export function Navbar() {
   const [current, setCurrent] = useState(false);
   const [role, setRole] = useState(false);
@@ -64,6 +78,23 @@ export function Navbar() {
       setCurrent(false);
     }
   }
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const handleLogout = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/user/logout",
+        {},
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        setIsAuthenticated(false);
+
+        window.location.href = "login";
+      }
+    } catch (error) {
+      console.log("Logout error:", error);
+    }
+  };
 
   return (
     <>
@@ -80,10 +111,11 @@ export function Navbar() {
           <StyledLink to="/community/notices">
             <NavItem icon="ti ti-friends" />
           </StyledLink>
+
           {current ? (
-            <StyledLink to="/login">
+            <LogoutBox onClick={() => handleLogout()}>
               <LogoutIcon />
-            </StyledLink>
+            </LogoutBox>
           ) : (
             <StyledLink to="/login">
               <LoginIcon />

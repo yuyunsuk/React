@@ -4,12 +4,37 @@ import {
     getLmsEventById,
 } from "../../../Api/CommunityApi/CommunityApi";
 import styled from "styled-components";
+import { Navbar } from "../Navbar";
+import { LeftSidebar, RightSidebar } from "../Sidebar";
 
 // 스타일 정의
+const BigBox = styled.div`
+    background-color: #0f1015;
+    color: #e0e0e0;
+    min-height: 100vh;
+    padding: 20px;
+    width: 90%; 
+    margin: 0 auto; /* 화면 중앙에 배치 */
+    margin-top: 5%;
+`
+
+const H1 = styled.div`
+    text-align: center;
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+`
+
 const Container = styled.div`
     display: flex;
     justify-content: center;
     padding: 20px;
+    background-color: #0f1015; /* 배경색 적용 */
 `;
 
 const MainContent = styled.div`
@@ -17,6 +42,7 @@ const MainContent = styled.div`
     flex-direction: column;
     align-items: center;
     width: 100%;
+    color: #e0e0e0; /* 기본 텍스트 색상 적용 */
 `;
 
 const Content = styled.div`
@@ -29,14 +55,15 @@ const Content = styled.div`
 `;
 
 const EventCard = styled.div`
-    border: 1px solid #ddd;
+    border: 1px solid #1c1e24; /* 어두운 회색 테두리 */
     padding: 15px;
-    background-color: #fff;
+    background-color: #23262d; /* 짙은 회색 배경 */
     border-radius: 8px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     cursor: pointer;
+    color: #ffffff; /* 카드 내 텍스트 색상 */
 `;
 
 const EventImage = styled.img`
@@ -49,6 +76,7 @@ const EventImage = styled.img`
 const EventTitle = styled.h3`
     font-size: 1.2rem;
     margin: 10px 0;
+    color: #00adb5; /* 청록색 텍스트 */
 `;
 
 const Pagination = styled.div`
@@ -57,19 +85,20 @@ const Pagination = styled.div`
     align-items: center;
     flex-direction: row;
     margin-top: 20px;
+    color: #b0b0b0; /* 페이지네이션 텍스트 색상 */
 `;
 
 const PaginationButton = styled.button`
     margin: 0 5px;
     padding: 5px 10px;
-    background-color: #007bff;
+    background-color: #00adb5; /* 밝은 파란색 버튼 */
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 
     &:disabled {
-        background-color: #ddd;
+        background-color: #1c1e24; /* 비활성화 시 어두운 회색 */
     }
 `;
 
@@ -80,16 +109,17 @@ const EventDetailContainer = styled.div`
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #1c1e24;
     border-radius: 8px;
-    background-color: #fff;
+    background-color: #23262d;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    color: #e0e0e0;
 `;
 
 const BackButton = styled.button`
     margin-top: 20px;
     padding: 5px 10px;
-    background-color: #007bff;
+    background-color: #6200ea; /* 보라색 버튼 */
     color: white;
     border: none;
     border-radius: 5px;
@@ -143,8 +173,11 @@ export function Events() {
     };
 
     return (
-        <div>
-            <h1>이벤트</h1>
+        <>
+        <Navbar />
+        <LeftSidebar />
+        <BigBox>
+            <H1 style={{ color: '#ffffff' }}>이벤트</H1>
             <Container>
                 <MainContent>
                     {/* 이벤트 목록 */}
@@ -219,6 +252,7 @@ export function Events() {
                     )}
                 </MainContent>
             </Container>
-        </div>
+        </BigBox>
+        </>
     );
 }

@@ -414,6 +414,7 @@ export function LectureListModal() {
                                 position: "absolute",
                                 top: "10px",
                                 right: "10px",
+                                color: "white", // 버튼 색상을 하얀색으로 설정
                             }}
                         >
                             &times;

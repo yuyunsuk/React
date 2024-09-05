@@ -17,7 +17,7 @@ import { LectureListModal } from "../LMS/Lecture/LectureListModal";
 // import { LectureDetail } from "../LMS/Lecture/LectureDetail";
 
 // Cart
-import { Cart } from "../LMS/Cart/Cart";
+import { CartModal } from "../LMS/Cart/CartModal";
 
 // MyPage
 import { MyPageUser } from "../LMS/MyPage/MyPageUser";
@@ -146,8 +146,16 @@ export function UnityProject() {
             setModalReturn(() => Events); // React component function
         } else if (romeName == "질의응답") {
             setModalReturn(() => QA); // React component function
+        } else if (romeName == "강의") {
+            setModalReturn(() => LectureListModal); // => 새로운 브라우저 창 열기
         } else if (romeName == "장바구니") {
-            setModalReturn(() => Cart); // React component function
+            setModalReturn(() => CartModal); // React component function
+        } else if (romeName == "회원관리") {
+            setModalReturn(() => UserManagement); // React component function
+        } else if (romeName == "강의관리") {
+            setModalReturn(() => LectureManagement); // React component function
+        } else if (romeName == "수강관리") {
+            setModalReturn(() => EnrollmentManagement); // React component function
         } else if (romeName == "로그아웃") {
             setModalReturn(() => {
                 window.location.href = "http://localhost:3000/Login";
@@ -159,26 +167,22 @@ export function UnityProject() {
     function handleOpenReactWindow_Origin(romeName) {
         // 예를 들어, 새로운 브라우저 창을 열도록 구현할 수 있습니다.
         // React 애플리케이션의 URL로 새로운 탭을 열기
-
-        setModalOpen(true);
-
+        // setModalOpen(true);
         // Admin
-        if (romeName == "회원관리") {
-            setModalReturn(() => UserManagement); // React component function
-        } else if (romeName == "강의관리") {
-            setModalReturn(() => LectureManagement); // React component function
-        } else if (romeName == "수강관리") {
-            setModalReturn(() => EnrollmentManagement); // React component function
-        }
-
+        // if (romeName == "회원관리") {
+        //     setModalReturn(() => UserManagement); // React component function
+        // } else if (romeName == "강의관리") {
+        //     setModalReturn(() => LectureManagement); // React component function
+        // } else if (romeName == "수강관리") {
+        //     setModalReturn(() => EnrollmentManagement); // React component function
+        // }
         // Lecture & Cart
-        if (romeName == "강의") {
-            // setModalReturn(() => LectureList); // React component function
-            setModalReturn(() => LectureListModal); // => 새로운 브라우저 창 열기
-        } else if (romeName == "장바구니") {
-            setModalReturn(() => Cart); // React component function
-        }
-
+        // if (romeName == "강의") {
+        //     // setModalReturn(() => LectureList); // React component function
+        //     setModalReturn(() => LectureListModal); // => 새로운 브라우저 창 열기
+        // } else if (romeName == "장바구니") {
+        //     setModalReturn(() => Cart); // React component function
+        // }
         // MyPage
         // if (romeName == "회원정보") {
         //     setModalReturn(() => MyPageUser); // React component function
@@ -188,7 +192,6 @@ export function UnityProject() {
         // } else if (romeName == "회원탈퇴") {
         //     setModalReturn(() => MyPageUserDelete); // React component function
         // }
-
         // Community
         // if (romeName == "공지사항") {
         //     setModalReturn(() => Notices); // React component function
@@ -197,7 +200,6 @@ export function UnityProject() {
         // } else if (romeName == "질의응답") {
         //     setModalReturn(() => QA); // React component function
         // }
-
         // LectureDetail & Course Test
         // if (romeName == "이벤트") {
         //     setModalReturn(() => LectureDetail); // React component function
@@ -313,11 +315,12 @@ export function UnityProject() {
                         {/* <div className={"modal-content"}> */}
                         <Modal
                             isOpen={modalOpen}
+                            shouldCloseOnOverlayClick={false} // 모달 바깥을 클릭해도 모달이 닫히지 않도록 설정
                             onRequestClose={() => {
                                 setModalOpen(false);
                             }}
                             style={customStyles} // 스타일을 적용합니다.
-                            contentLabel="Modal Test"
+                            contentLabel="Modal Window"
                         >
                             <span
                                 className="close"
@@ -329,6 +332,14 @@ export function UnityProject() {
                                         "ContinueGame"
                                     );
                                     RequestFocus();
+                                }}
+                                style={{
+                                    cursor: "pointer",
+                                    fontSize: "1.5rem",
+                                    position: "absolute",
+                                    top: "10px",
+                                    right: "10px",
+                                    color: "white", // 버튼 색상을 하얀색으로 설정
                                 }}
                             >
                                 &times;
