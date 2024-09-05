@@ -43,6 +43,7 @@ const SideLogo = styled.div`
 
 const Logo = styled.img`
     width: 100%;
+    cursor: pointer;
 `;
 
 const SideItem = styled.div`
@@ -75,8 +76,7 @@ export function LeftSidebar() {
     const navigate = useNavigate();
 
     // Community 관련 추가
-    const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] =
-        useState(false); // 드롭다운 상태 관리
+    const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false); // 드롭다운 상태 관리
     const toggleCommunityDropdown = () => {
         setIsCommunityDropdownOpen(!isCommunityDropdownOpen); // 드롭다운 상태 변경
     };
@@ -86,7 +86,10 @@ export function LeftSidebar() {
             <LeftSideContainer>
                 <SideManu>
                     <SideLogo>
-                        <Logo src="/image/logo.png"></Logo>
+						            <Logo
+							              src="/image/logo.png"
+							              onClick={() => navigate("/index")}
+						            ></Logo>
                     </SideLogo>
                     <SideItem>
                         <SideContant onClick={() => navigate("/lecture")}>

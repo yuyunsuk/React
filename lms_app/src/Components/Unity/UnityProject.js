@@ -36,10 +36,31 @@ import { Events } from "../LMS/Community/Events.js";
 
 import axios from "axios";
 
+const GameBG = styled.div`
+    width: 100%;
+    height: 919px;
+    position: absolute;
+    top: 0;
+    background-image: url("/image/Gamebg.png");
+    background-size: cover;
+    background-position: center;
+`;
+const GameBox = styled.div`
+    position: relative;
+`;
+
 // 게임을 로드할 화면을 만듬
 const Container = styled.div`
-    width: 1500px;
+    /* width: 1500px;
     height: 800px;
+    margin: 80px auto;
+    border: 1px solid gray; */
+
+    position: absolute;
+    top: -17px;
+    left: 123px;
+    width: 1656px;
+    height: 662px;
     margin: 80px auto;
     border: 1px solid gray;
 `;
@@ -262,13 +283,15 @@ export function UnityProject() {
 
     return (
         <>
-            {/* <h1>UnityProject Game</h1> */}
-            {/* <button onClick={() => {
+            <GameBG>
+                <GameBox>
+                    {/* <h1>UnityProject Game</h1> */}
+                    {/* <button onClick={() => {
                 playingGame = true;
 //                PlayingGame(true)
             }}>Start Game</button> */}
 
-            {/* // 버튼 테스트
+                    {/* // 버튼 테스트
             <button onClick={() => sendMessage("PortalManager", "PauseGame")}>
                 Pause Game
             </button>
@@ -280,7 +303,7 @@ export function UnityProject() {
             <button onClick={() => sendMessage("Player", "Attack")}>
                 Attack
             </button> */}
-            {/* <button
+                    {/* <button
                 onClick={() =>
                     ReactToUnityJSON(
                         "http://localhost:8080/learning/contents/qa/L00000000052/3"
@@ -290,8 +313,8 @@ export function UnityProject() {
                 ReactToUnityJSON
             </button> */}
 
-            <Container>
-                {/* <div className={"btn-wrapper"}>
+                    <Container>
+                        {/* <div className={"btn-wrapper"}>
                     <button
                         className={"modal-open-btn"}
                         onClick={() => setModalOpen(true)}
@@ -299,62 +322,62 @@ export function UnityProject() {
                         모달 열기
                     </button>
                 </div> */}
-                {modalOpen && (
-                    <div
-                        className={"modal-container"}
-                        // ref={modalBackground}
-                        // onClick={(e) => {
-                        //     // 모달 밖의 부분 클릭시 Close
-                        //     if (e.target === modalBackground.current) {
-                        //         setModalOpen(false);
-                        //         sendMessage("PortalManager", "ContinueGame");
-                        //         RequestFocus();
-                        //     }
-                        //}}
-                    >
-                        {/* <div className={"modal-content"}> */}
-                        <Modal
-                            isOpen={modalOpen}
-                            shouldCloseOnOverlayClick={false} // 모달 바깥을 클릭해도 모달이 닫히지 않도록 설정
-                            onRequestClose={() => {
-                                setModalOpen(false);
-                            }}
-                            style={customStyles} // 스타일을 적용합니다.
-                            contentLabel="Modal Window"
-                        >
-                            <span
-                                className="close"
-                                /* 오른쪽 상단 x 클릭시 Close */
-                                onClick={() => {
-                                    setModalOpen(false);
-                                    sendMessage(
-                                        "PortalManager",
-                                        "ContinueGame"
-                                    );
-                                    RequestFocus();
-                                }}
-                                style={{
-                                    cursor: "pointer",
-                                    fontSize: "1.5rem",
-                                    position: "absolute",
-                                    top: "10px",
-                                    right: "10px",
-                                    color: "white", // 버튼 색상을 하얀색으로 설정
-                                }}
+                        {modalOpen && (
+                            <div
+                                className={"modal-container"}
+                                // ref={modalBackground}
+                                // onClick={(e) => {
+                                //     // 모달 밖의 부분 클릭시 Close
+                                //     if (e.target === modalBackground.current) {
+                                //         setModalOpen(false);
+                                //         sendMessage("PortalManager", "ContinueGame");
+                                //         RequestFocus();
+                                //     }
+                                //}}
                             >
-                                &times;
-                            </span>
-                            {/* <h1>리액트로 모달</h1> */}
-                            {modalReturn &&
-                                React.createElement(
-                                    modalReturn,
-                                    modalReturn === MyPageLectureModal
-                                        ? { onClose: closeModal }
-                                        : {}
-                                )}
-                            {/* {modalReturn && React.createElement(modalReturn)} */}
-                            <br></br>
-                            {/* <button
+                                {/* <div className={"modal-content"}> */}
+                                <Modal
+                                    isOpen={modalOpen}
+                                    shouldCloseOnOverlayClick={false} // 모달 바깥을 클릭해도 모달이 닫히지 않도록 설정
+                                    onRequestClose={() => {
+                                        setModalOpen(false);
+                                    }}
+                                    style={customStyles} // 스타일을 적용합니다.
+                                    contentLabel="Modal Window"
+                                >
+                                    <span
+                                        className="close"
+                                        /* 오른쪽 상단 x 클릭시 Close */
+                                        onClick={() => {
+                                            setModalOpen(false);
+                                            sendMessage(
+                                                "PortalManager",
+                                                "ContinueGame"
+                                            );
+                                            RequestFocus();
+                                        }}
+                                        style={{
+                                            cursor: "pointer",
+                                            fontSize: "1.5rem",
+                                            position: "absolute",
+                                            top: "10px",
+                                            right: "10px",
+                                            color: "white", // 버튼 색상을 하얀색으로 설정
+                                        }}
+                                    >
+                                        &times;
+                                    </span>
+                                    {/* <h1>리액트로 모달</h1> */}
+                                    {modalReturn &&
+                                        React.createElement(
+                                            modalReturn,
+                                            modalReturn === MyPageLectureModal
+                                                ? { onClose: closeModal }
+                                                : {}
+                                        )}
+                                    {/* {modalReturn && React.createElement(modalReturn)} */}
+                                    <br></br>
+                                    {/* <button
                                 // [모달 닫기] 버튼 클릭시 Close
                                 onClick={() => {
                                     setModalOpen(false);
@@ -367,20 +390,22 @@ export function UnityProject() {
                             >
                                 모달 닫기
                             </button> */}
-                        </Modal>
-                        {/* </div> */}
-                    </div>
-                )}
-                {playingGame ? (
-                    <Unity
-                        unityProvider={unityProvider}
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                        }}
-                    />
-                ) : null}
-            </Container>
+                                </Modal>
+                                {/* </div> */}
+                            </div>
+                        )}
+                        {playingGame ? (
+                            <Unity
+                                unityProvider={unityProvider}
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                }}
+                            />
+                        ) : null}
+                    </Container>
+                </GameBox>
+            </GameBG>
 
             {/* // Unity 에서 게임오버 메시지를 받으면 출력후 종료 */}
             {isGameOver === true && (
