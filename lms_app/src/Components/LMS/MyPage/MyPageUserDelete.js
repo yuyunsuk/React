@@ -3,6 +3,7 @@ import axios from "axios";
 // import "../../../Styles/styleMypage.css";
 import "../../../Styles/MyPageUserDelete.css";
 import styled, { keyframes } from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const fadeIn = keyframes`
   from {
@@ -33,6 +34,7 @@ export function MyPageUserDelete() {
     const [joinDate, setJoinDate] = useState("");
     const [userDeleteReason, setUserDeleteReason] = useState("");
     const [textMinLengthAlert, setTextMinLengthAlert] = useState(false);
+    const navigate = useNavigate();
 
     const urlCurrent = "http://localhost:8080/user/current";
     const urlDelete = "http://localhost:8080/api/withdrawal/saveWithdrawal";
@@ -91,7 +93,7 @@ export function MyPageUserDelete() {
                             .post(urlLogout, {}, { withCredentials: true })
                             .then((response) => {
                                 if (response.status === 200) {
-                                    window.location.href = "index.html";
+                                    navigate("/login");
                                 }
                             })
                             .catch((error) => {

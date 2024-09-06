@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Unity, useUnityContext } from "react-unity-webgl";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 import Modal from "react-modal";
 
@@ -30,39 +30,55 @@ import { MyPageUserDelete } from "../LMS/MyPage/MyPageUserDelete";
 // import { Course } from "../LMS/Course/Course";
 
 // Community
-import { Notices } from "../LMS/Community/Notices.js";
-import { QA } from "../LMS/Community/QA.js";
-import { Events } from "../LMS/Community/Events.js";
+import { NoticesModal } from "../LMS/Community/NoticesModal.js";
+import { QAModal } from "../LMS/Community/QAModal.js";
+import { EventsModal } from "../LMS/Community/EventsModal.js";
 
 import axios from "axios";
 
 const GameBG = styled.div`
     width: 100%;
-    height: 919px;
+    /* height: 991px; */
+    height: 100vh; /* 화면 높이와 맞추기 위해 100vh로 변경 */
     position: absolute;
     top: 0;
     background-image: url("/image/Gamebg.png");
     background-size: cover;
     background-position: center;
+    overflow: hidden; /* 추가 */
 `;
+
 const GameBox = styled.div`
     position: relative;
 `;
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 // 게임을 로드할 화면을 만듬
 const Container = styled.div`
-    /* width: 1500px;
-    height: 800px;
-    margin: 80px auto;
-    border: 1px solid gray; */
+    /* top: 2px;
+    left: 86px;
+    width: 1726px;
+    height: 690px; */
 
     position: absolute;
-    top: -17px;
-    left: 123px;
-    width: 1656px;
-    height: 662px;
+    top: -1px;
+    left: 120px;
+    width: 1671px;
+    height: 690px;
+
     margin: 80px auto;
     border: 1px solid gray;
+    animation: ${fadeIn} 0.6s ease-out;
 `;
 
 const customStyles = {
@@ -162,11 +178,11 @@ export function UnityProject() {
         } else if (romeName == "회원탈퇴") {
             setModalReturn(() => MyPageUserDelete); // React component function
         } else if (romeName == "공지사항") {
-            setModalReturn(() => Notices); // React component function
+            setModalReturn(() => NoticesModal); // React component function
         } else if (romeName == "이벤트") {
-            setModalReturn(() => Events); // React component function
+            setModalReturn(() => EventsModal); // React component function
         } else if (romeName == "질의응답") {
-            setModalReturn(() => QA); // React component function
+            setModalReturn(() => QAModal); // React component function
         } else if (romeName == "강의") {
             setModalReturn(() => LectureListModal); // => 새로운 브라우저 창 열기
         } else if (romeName == "장바구니") {
@@ -247,15 +263,15 @@ export function UnityProject() {
                 withCredentials: true,
             })
             .then((response) => {
-                console.log("데이터:", response.data);
-                window.alert(
-                    "response.data: " +
-                        response.data[0].question +
-                        "@" +
-                        response.data[1].question +
-                        "@" +
-                        response.data[2].question
-                );
+                console.log("UnityProject Response 데이터:", response.data);
+                // window.alert(
+                //     "response.data: " +
+                //         response.data[0].question +
+                //         "@" +
+                //         response.data[1].question +
+                //         "@" +
+                //         response.data[2].question
+                // );
 
                 const jsonData = JSON.stringify(response.data);
 

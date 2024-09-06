@@ -76,7 +76,8 @@ export function LeftSidebar() {
     const navigate = useNavigate();
 
     // Community 관련 추가
-    const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] = useState(false); // 드롭다운 상태 관리
+    const [isCommunityDropdownOpen, setIsCommunityDropdownOpen] =
+        useState(false); // 드롭다운 상태 관리
     const toggleCommunityDropdown = () => {
         setIsCommunityDropdownOpen(!isCommunityDropdownOpen); // 드롭다운 상태 변경
     };
@@ -86,10 +87,10 @@ export function LeftSidebar() {
             <LeftSideContainer>
                 <SideManu>
                     <SideLogo>
-						            <Logo
-							              src="/image/logo.png"
-							              onClick={() => navigate("/index")}
-						            ></Logo>
+                        <Logo
+                            src="/image/logo.png"
+                            onClick={() => navigate("/index")}
+                        ></Logo>
                     </SideLogo>
                     <SideItem>
                         <SideContant onClick={() => navigate("/lecture")}>
@@ -188,7 +189,8 @@ const CartForm = styled.div`
 
 const CartText = styled.p`
     font-size: 15px;
-    color: #fff;
+    /* color: #fff; */
+    color: #9da2b9;
     padding-bottom: 6px;
     background-color: transparent;
     text-align: center;
