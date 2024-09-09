@@ -6,6 +6,7 @@ import {
     BookIcon,
     CartSideIcon,
     GameIcon,
+    ChatroomIcon,
     InstagramIcon,
     LectureSideIcon,
     SettingIcon,
@@ -88,7 +89,7 @@ export function LeftSidebar() {
                 <SideManu>
                     <SideLogo>
                         <Logo
-                            src="/image/logo.png"
+                            src="/reactimage/logo.png"
                             onClick={() => navigate("/index")}
                         ></Logo>
                     </SideLogo>
@@ -121,6 +122,12 @@ export function LeftSidebar() {
                             <Group>
                                 <GameIcon></GameIcon>
                                 <TextStyle>게임하기</TextStyle>
+                            </Group>
+                        </SideContant>
+                        <SideContant onClick={() => navigate("/chatroom")}>
+                            <Group>
+                                <ChatroomIcon></ChatroomIcon>
+                                <TextStyle>체팅룸</TextStyle>
                             </Group>
                         </SideContant>
                     </SideItem>

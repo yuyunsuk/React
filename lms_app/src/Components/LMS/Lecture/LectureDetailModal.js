@@ -36,7 +36,7 @@ const LectureHeaderImg = styled.div`
     padding: 176px 50px 0 240px;
     width: 100%;
     height: 350px;
-    background-image: url("/image/LectureDetail.png");
+    background-image: url("/reactimage/LectureDetail.png");
     background-size: cover;
     background-position: center;
     border-radius: 15px;

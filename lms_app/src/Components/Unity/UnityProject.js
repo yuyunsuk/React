@@ -25,10 +25,6 @@ import { MyPageUser } from "../LMS/MyPage/MyPageUser";
 import { MyPageLectureModal } from "../LMS/MyPage/MyPageLectureModal";
 import { MyPageUserDelete } from "../LMS/MyPage/MyPageUserDelete";
 
-// Blank Window 로 띄울 예정
-// Course
-// import { Course } from "../LMS/Course/Course";
-
 // Community
 import { NoticesModal } from "../LMS/Community/NoticesModal.js";
 import { QAModal } from "../LMS/Community/QAModal.js";
@@ -42,7 +38,7 @@ const GameBG = styled.div`
     height: 100vh; /* 화면 높이와 맞추기 위해 100vh로 변경 */
     position: absolute;
     top: 0;
-    background-image: url("/image/Gamebg.png");
+    background-image: url("/reactimage/Gamebg.png");
     background-size: cover;
     background-position: center;
     overflow: hidden; /* 추가 */
@@ -112,6 +108,11 @@ export function UnityProject() {
     const [modalOpen, setModalOpen] = useState(false);
     // const modalBackground = useRef();
 
+    const [modalReturn, setModalReturn] = useState(null);
+
+    // Unity 게임의 로드 상태를 추적할 상태 변수 추가
+    const [isUnityLoaded, setIsUnityLoaded] = useState(false);
+
     const closeModal = (qaUrl) => {
         if (!qaUrl) {
             setModalOpen(false);
@@ -121,9 +122,8 @@ export function UnityProject() {
         }
     };
 
-    const [modalReturn, setModalReturn] = useState(null);
-
     // React 에서 Unity 로 sendMessage 를 통해 전달하기
+    // https://react-unity-webgl.dev/docs/advanced-examples/loading-overlay
     const {
         unityProvider,
         sendMessage,
@@ -135,6 +135,30 @@ export function UnityProject() {
         frameworkUrl: "build/Build.framework.js",
         codeUrl: "build/Build.wasm",
     });
+
+    function handleUnityOnLoaded() {
+        const urlCurrent = "http://localhost:8080/user/current"; // 세션 조회
+
+        // window.alert("urlCurrent: " + urlCurrent);
+
+        axios
+            .get(urlCurrent, {
+                withCredentials: true,
+            })
+            .then((response) => {
+                const userName = response.data.userName;
+
+                // window.alert("[userName]: " + userName);
+
+                // Unity로 데이터 전송
+                // window.alert("SendMessage Start!!!");
+
+                sendMessage("Player", "ReceiveUserName", userName);
+            })
+            .catch((error) => {
+                console.log("에러 발생: ", error);
+            });
+    }
 
     // Unity 에서 React 로 전달
     function handleGameOver(userName, score) {
@@ -150,13 +174,6 @@ export function UnityProject() {
     //     window.open("http://localhost:3000/community/notices", "_blank");
     // }
 
-    useEffect(() => {
-        addEventListener("OpenReactWindow", handleOpenReactWindow);
-        return () => {
-            removeEventListener("OpenReactWindow", handleOpenReactWindow);
-        };
-    }, []);
-
     // Unity에서 호출될 JavaScript 함수
     function handleOpenReactWindow(romeName) {
         // 예를 들어, 새로운 브라우저 창을 열도록 구현할 수 있습니다.
@@ -164,13 +181,11 @@ export function UnityProject() {
 
         setModalOpen(true);
 
-        // Test 작업 중
-        // if (romeName == "공지사항") {
-        //     // setModalReturn(() => LectureList); // React component function
-        //     setModalReturn(() => LectureListModal); // => 새로운 브라우저 창 열기
-        // }
+        // Admin (회원관리, 강의관리, 수강관리)
+        // MyPage (회원정보, 나의학습, 회원탈퇴)
+        // Community (공지사항, 이벤트, 질의응답)
+        // Lecture & Cart (강의, 장바구니, 로그아웃)
 
-        // MyPage & 공지사항
         if (romeName == "회원정보") {
             setModalReturn(() => MyPageUser); // React component function
         } else if (romeName == "나의학습") {
@@ -183,16 +198,16 @@ export function UnityProject() {
             setModalReturn(() => EventsModal); // React component function
         } else if (romeName == "질의응답") {
             setModalReturn(() => QAModal); // React component function
-        } else if (romeName == "강의") {
-            setModalReturn(() => LectureListModal); // => 새로운 브라우저 창 열기
-        } else if (romeName == "장바구니") {
-            setModalReturn(() => CartModal); // React component function
         } else if (romeName == "회원관리") {
             setModalReturn(() => UserManagement); // React component function
         } else if (romeName == "강의관리") {
             setModalReturn(() => LectureManagement); // React component function
         } else if (romeName == "수강관리") {
             setModalReturn(() => EnrollmentManagement); // React component function
+        } else if (romeName == "강의") {
+            setModalReturn(() => LectureListModal); // => 새로운 브라우저 창 열기
+        } else if (romeName == "장바구니") {
+            setModalReturn(() => CartModal); // React component function
         } else if (romeName == "로그아웃") {
             setModalReturn(() => {
                 window.location.href = "http://localhost:3000/Login";
@@ -200,55 +215,24 @@ export function UnityProject() {
         }
     }
 
-    // Unity에서 호출될 JavaScript 함수
-    function handleOpenReactWindow_Origin(romeName) {
-        // 예를 들어, 새로운 브라우저 창을 열도록 구현할 수 있습니다.
-        // React 애플리케이션의 URL로 새로운 탭을 열기
-        // setModalOpen(true);
-        // Admin
-        // if (romeName == "회원관리") {
-        //     setModalReturn(() => UserManagement); // React component function
-        // } else if (romeName == "강의관리") {
-        //     setModalReturn(() => LectureManagement); // React component function
-        // } else if (romeName == "수강관리") {
-        //     setModalReturn(() => EnrollmentManagement); // React component function
-        // }
-        // Lecture & Cart
-        // if (romeName == "강의") {
-        //     // setModalReturn(() => LectureList); // React component function
-        //     setModalReturn(() => LectureListModal); // => 새로운 브라우저 창 열기
-        // } else if (romeName == "장바구니") {
-        //     setModalReturn(() => Cart); // React component function
-        // }
-        // MyPage
-        // if (romeName == "회원정보") {
-        //     setModalReturn(() => MyPageUser); // React component function
-        // } else if (romeName == "나의학습") {
-        //     // setModalReturn(() => MyPageLecture); // React component function
-        //     setModalReturn(() => MyPageLectureModal); // => 새로운 브라우저 창 열기
-        // } else if (romeName == "회원탈퇴") {
-        //     setModalReturn(() => MyPageUserDelete); // React component function
-        // }
-        // Community
-        // if (romeName == "공지사항") {
-        //     setModalReturn(() => Notices); // React component function
-        // } else if (romeName == "이벤트") {
-        //     setModalReturn(() => Events); // React component function
-        // } else if (romeName == "질의응답") {
-        //     setModalReturn(() => QA); // React component function
-        // }
-        // LectureDetail & Course Test
-        // if (romeName == "이벤트") {
-        //     setModalReturn(() => LectureDetail); // React component function
-        // } else if (romeName == "QA") {
-        //     setModalReturn(() => Course); // React component function
-        // }
-    }
-
     useEffect(() => {
         addEventListener("GameOver", handleGameOver);
         return () => {
             removeEventListener("GameOver", handleGameOver);
+        };
+    }, []);
+
+    useEffect(() => {
+        addEventListener("OpenReactWindow", handleOpenReactWindow);
+        return () => {
+            removeEventListener("OpenReactWindow", handleOpenReactWindow);
+        };
+    }, []);
+
+    useEffect(() => {
+        addEventListener("UnityOnLoaded", handleUnityOnLoaded);
+        return () => {
+            removeEventListener("UnityOnLoaded", handleUnityOnLoaded);
         };
     }, []);
 
@@ -319,6 +303,13 @@ export function UnityProject() {
             <button onClick={() => sendMessage("Player", "Attack")}>
                 Attack
             </button> */}
+                    <button
+                        onClick={() =>
+                            sendMessage("Player", "ReceiveUserName", "테스트01")
+                        }
+                    >
+                        플레이어 이름 전달
+                    </button>
                     {/* <button
                 onClick={() =>
                     ReactToUnityJSON(
@@ -338,6 +329,32 @@ export function UnityProject() {
                         모달 열기
                     </button>
                 </div> */}
+
+                        {/* {isLoaded === false && (
+                            <div className="loading-overlay">
+                                <p>
+                                    Loading... (
+                                    {Math.round(loadingProgression * 100)}%)
+                                </p>
+                            </div>
+                        )}
+                        {playingGame && (
+                            <Unity
+                                unityProvider={unityProvider}
+                                style={{ width: "100%", height: "100%" }}
+                            />
+                        )} */}
+
+                        {playingGame ? (
+                            <Unity
+                                unityProvider={unityProvider}
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                }}
+                            />
+                        ) : null}
+
                         {modalOpen && (
                             <div
                                 className={"modal-container"}
@@ -410,15 +427,6 @@ export function UnityProject() {
                                 {/* </div> */}
                             </div>
                         )}
-                        {playingGame ? (
-                            <Unity
-                                unityProvider={unityProvider}
-                                style={{
-                                    width: "100%",
-                                    height: "100%",
-                                }}
-                            />
-                        ) : null}
                     </Container>
                 </GameBox>
             </GameBG>
