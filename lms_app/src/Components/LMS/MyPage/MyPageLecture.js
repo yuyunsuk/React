@@ -31,11 +31,19 @@ const UserLectureBox = styled.div`
 `;
 
 const UserEducationActivityTitle = styled.div`
-  font-size: 26px;
-  font-weight: 800;
-  margin-bottom: 30px;
-  margin-left: 55px;
-  color: #556b2f;
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 30px;
+    margin-left: 55px;
+    color: #556b2f;
+`;
+
+const UserSummaryTitle = styled.div`
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 30px;
+    margin-left: 80px;
+    color: white;
 `;
 
 const GraphYAxisSpan = styled.span`
@@ -46,76 +54,76 @@ const GraphYAxisSpan = styled.span`
 `;
 
 const ButtonPrimary = styled.button`
-  background-color: #4a90e2; /* 청록색 */
-  color: #fff;
-  border: 2px solid #4a90e2;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 10px;
+    background-color: #4a90e2; /* 청록색 */
+    color: #fff;
+    border: 2px solid #4a90e2;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px;
 
-  &:hover {
-    background-color: transparent;
-    color: #4a90e2;
-  }
+    &:hover {
+        background-color: transparent;
+        color: #4a90e2;
+    }
 `;
 
 const ButtonSecondary = styled.button`
-  background-color: #e94e77; /* 딥 핑크 */
-  color: #fff;
-  border: 2px solid #e94e77;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 10px;
+    background-color: #e94e77; /* 딥 핑크 */
+    color: #fff;
+    border: 2px solid #e94e77;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px;
 
-  &:hover {
-    background-color: transparent;
-    color: #e94e77;
-  }
+    &:hover {
+        background-color: transparent;
+        color: #e94e77;
+    }
 `;
 
 const ButtonTertiary = styled.button`
-  background-color: #f5a623; /* 주황색 */
-  color: #fff;
-  border: 2px solid #f5a623;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 10px;
+    background-color: #f5a623; /* 주황색 */
+    color: #fff;
+    border: 2px solid #f5a623;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px;
 
-  &:hover {
-    background-color: transparent;
-    color: #f5a623;
-  }
+    &:hover {
+        background-color: transparent;
+        color: #f5a623;
+    }
 `;
 
 const ButtonNeutral = styled.button`
-  background-color: #7ed321; /* 연한 초록색 */
-  color: #fff;
-  border: 2px solid #7ed321;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+    background-color: #7ed321; /* 연한 초록색 */
+    color: #fff;
+    border: 2px solid #7ed321;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 
-  &:hover {
-    background-color: transparent;
-    color: #7ed321;
-  }
+    &:hover {
+        background-color: transparent;
+        color: #7ed321;
+    }
 `;
 
 const BtnBox = styled.div`
-  width: 100%;
-  text-align: center;
-  padding: 10px;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
 `;
 
 export function MyPageLecture() {
@@ -493,25 +501,38 @@ export function MyPageLecture() {
             <div className="main-content">
                 {/* <div className="root"> */}
                 <div className="main-top">
-          <UserLectureBox>
-            <UserEducationActivityTitle>나의학습</UserEducationActivityTitle>
-            <BtnBox>
-              <ButtonPrimary onClick={() => handleTabClick("summary")}>
-                요약정보
-              </ButtonPrimary>
-              <ButtonSecondary onClick={() => handleTabClick("studying")}>
-                학습중
-              </ButtonSecondary>
-              <ButtonTertiary onClick={() => handleTabClick("cancel")}>
-                수강취소
-              </ButtonTertiary>
-              <ButtonNeutral onClick={() => handleTabClick("complete")}>
-                수강종료
-              </ButtonNeutral>
-            </BtnBox>
+                    <UserLectureBox>
+                        <UserEducationActivityTitle>
+                            나의학습
+                        </UserEducationActivityTitle>
+                        <BtnBox>
+                            <ButtonPrimary
+                                onClick={() => handleTabClick("summary")}
+                            >
+                                요약정보
+                            </ButtonPrimary>
+                            <ButtonSecondary
+                                onClick={() => handleTabClick("studying")}
+                            >
+                                학습중
+                            </ButtonSecondary>
+                            <ButtonTertiary
+                                onClick={() => handleTabClick("cancel")}
+                            >
+                                수강취소
+                            </ButtonTertiary>
+                            <ButtonNeutral
+                                onClick={() => handleTabClick("complete")}
+                            >
+                                수강종료
+                            </ButtonNeutral>
+                        </BtnBox>
 
                         {currentTab === "summary" && (
                             <div className="userLectureGraphContainer">
+                                <UserSummaryTitle>
+                                    나의 학습활동
+                                </UserSummaryTitle>
                                 <div className="userLectureGraph">
                                     {/* <div className="userGraphSearchBar">
                                         <select
