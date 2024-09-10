@@ -13,9 +13,6 @@ import { EnrollmentManagement } from "../LMS/Admin/EnrollmentManagement";
 // import { LectureList } from "../LMS/Lecture/LectureList";
 import { LectureListModal } from "../LMS/Lecture/LectureListModal";
 
-// Blank Window 로 띄울 예정
-// import { LectureDetail } from "../LMS/Lecture/LectureDetail";
-
 // Cart
 import { CartModal } from "../LMS/Cart/CartModal";
 
@@ -110,8 +107,7 @@ export function UnityProject() {
 
     const [modalReturn, setModalReturn] = useState(null);
 
-    // Unity 게임의 로드 상태를 추적할 상태 변수 추가
-    const [isUnityLoaded, setIsUnityLoaded] = useState(false);
+    const [playerName, setPlayerName] = useState("");
 
     const closeModal = (qaUrl) => {
         if (!qaUrl) {
@@ -123,12 +119,13 @@ export function UnityProject() {
     };
 
     // React 에서 Unity 로 sendMessage 를 통해 전달하기
-    // https://react-unity-webgl.dev/docs/advanced-examples/loading-overlay
     const {
         unityProvider,
         sendMessage,
         addEventListener,
         removeEventListener,
+        isLoaded,
+        loadingProgression,
     } = useUnityContext({
         loaderUrl: "build/Build.loader.js",
         dataUrl: "build/Build.data",
@@ -136,24 +133,33 @@ export function UnityProject() {
         codeUrl: "build/Build.wasm",
     });
 
-    function handleUnityOnLoaded() {
-        const urlCurrent = "http://localhost:8080/user/current"; // 세션 조회
+    useEffect(() => {
+        if (isLoaded) {
+            // 게임이 로드되면 이벤트 리스너를 추가합니다.
+            addEventListener("GameReady", handleGameReady);
+        }
 
-        // window.alert("urlCurrent: " + urlCurrent);
+        // 컴포넌트가 언마운트될 때 이벤트 리스너를 제거합니다.
+        return () => {
+            removeEventListener("GameReady", handleGameReady);
+        };
+    }, [isLoaded, addEventListener, removeEventListener]);
+
+    function handleGameReady() {
+        console.log("Game is ready to receive messages");
+
+        const urlCurrent = "http://localhost:8080/user/current"; // 세션 조회
 
         axios
             .get(urlCurrent, {
                 withCredentials: true,
             })
             .then((response) => {
-                const userName = response.data.userName;
+                const playerName = response.data.userName;
 
-                // window.alert("[userName]: " + userName);
-
-                // Unity로 데이터 전송
-                // window.alert("SendMessage Start!!!");
-
-                sendMessage("Player", "ReceiveUserName", userName);
+                if (playerName) {
+                    sendMessage("Canvas", "SetPlayerName", playerName);
+                }
             })
             .catch((error) => {
                 console.log("에러 발생: ", error);
@@ -229,13 +235,6 @@ export function UnityProject() {
         };
     }, []);
 
-    useEffect(() => {
-        addEventListener("UnityOnLoaded", handleUnityOnLoaded);
-        return () => {
-            removeEventListener("UnityOnLoaded", handleUnityOnLoaded);
-        };
-    }, []);
-
     function ReactToUnityJSON(urlLectureContentQA) {
         // const urlLectureContentQA = `http://localhost:8080/learning/contents/qa/${lectureId}/${data.learningContentsSeq}`; // /{lectureId}/{learningContentsSeq}
         // const urlLectureContentQA = `http://localhost:8080/learning/contents/qa/L00000000052/3`; // /{lectureId}/{learningContentsSeq}
@@ -303,13 +302,15 @@ export function UnityProject() {
             <button onClick={() => sendMessage("Player", "Attack")}>
                 Attack
             </button> */}
-                    <button
-                        onClick={() =>
-                            sendMessage("Player", "ReceiveUserName", "테스트01")
-                        }
-                    >
-                        플레이어 이름 전달
-                    </button>
+
+                    {/*<button
+                onClick={() =>
+                    sendMessage("Canvas", "SetPlayerName", "테스트01")
+                }
+            >
+                플레이어 이름 전달
+            </button> */}
+
                     {/* <button
                 onClick={() =>
                     ReactToUnityJSON(
@@ -322,28 +323,13 @@ export function UnityProject() {
 
                     <Container>
                         {/* <div className={"btn-wrapper"}>
-                    <button
-                        className={"modal-open-btn"}
-                        onClick={() => setModalOpen(true)}
-                    >
-                        모달 열기
-                    </button>
-                </div> */}
-
-                        {/* {isLoaded === false && (
-                            <div className="loading-overlay">
-                                <p>
-                                    Loading... (
-                                    {Math.round(loadingProgression * 100)}%)
-                                </p>
-                            </div>
-                        )}
-                        {playingGame && (
-                            <Unity
-                                unityProvider={unityProvider}
-                                style={{ width: "100%", height: "100%" }}
-                            />
-                        )} */}
+                            <button
+                                className={"modal-open-btn"}
+                                onClick={() => setModalOpen(true)}
+                            >
+                                모달 열기
+                            </button>
+                        </div> */}
 
                         {playingGame ? (
                             <Unity
@@ -411,18 +397,18 @@ export function UnityProject() {
                                     {/* {modalReturn && React.createElement(modalReturn)} */}
                                     <br></br>
                                     {/* <button
-                                // [모달 닫기] 버튼 클릭시 Close
-                                onClick={() => {
-                                    setModalOpen(false);
-                                    sendMessage(
-                                        "PortalManager",
-                                        "ContinueGame"
-                                    );
-                                    RequestFocus();
-                                }}
-                            >
-                                모달 닫기
-                            </button> */}
+                                        // [모달 닫기] 버튼 클릭시 Close
+                                        onClick={() => {
+                                            setModalOpen(false);
+                                            sendMessage(
+                                                "PortalManager",
+                                                "ContinueGame"
+                                            );
+                                            RequestFocus();
+                                        }}
+                                    >
+                                        모달 닫기
+                                    </button> */}
                                 </Modal>
                                 {/* </div> */}
                             </div>
