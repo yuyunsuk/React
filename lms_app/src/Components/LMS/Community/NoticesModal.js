@@ -24,6 +24,9 @@ const NoticeBoardContainer = styled.div`
     padding: 20px;
     margin-top: 5%;
     border-radius: 8px;
+    margin: 0 auto; /* 화면 중앙에 배치 */
+    margin-top: 5%;
+    width: 70%;
 `;
 
 const Title = styled.h2`
@@ -31,9 +34,59 @@ const Title = styled.h2`
 `;
 
 const NoticeTable = styled.table`
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #1c1e24; /* 배경색 짙은 회색 */
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px; /* 위쪽 여백 추가 */
+  
+  th, td {
+    padding: 10px; /* 셀 안쪽 여백 */
+    border: 1px solid #444; /* 테두리 색상 */
+    text-align: left; /* 텍스트 좌측 정렬 */
+    height: 50px; /* 셀 높이 고정 */
+    vertical-align: middle; /* 텍스트 세로 가운데 정렬 */
+    font-size: 14px; /* 폰트 크기 통일 */
+  }
+
+  /* 컬럼 별 너비 지정 */
+  th:nth-child(1), td:nth-child(1) {
+    width: 10%; /* No */
+  }
+
+  th:nth-child(2), td:nth-child(2) {
+    width: 10%; /* 카테고리 */
+  }
+
+  th:nth-child(3), td:nth-child(3) {
+    width: 50%; /* 제목 */
+  }
+
+  th:nth-child(4), td:nth-child(4) {
+    width: 10%; /* 작성자 */
+  }
+
+  th:nth-child(5), td:nth-child(5) {
+    width: 10%; /* 등록일 */
+  }
+
+  th:nth-child(6), td:nth-child(6) {
+    width: 10%; /* 조회수 */
+  }
+
+  th {
+    background-color: #1c1e24; /* 헤더 배경색 */
+    color: #ffffff; /* 헤더 텍스트 색상 */
+  }
+
+  td {
+    background-color: #23262d; /* 셀 배경색 */
+    color: #e0e0e0; /* 셀 텍스트 색상 */
+  }
+
+  /* 제목 셀에만 hover 효과 추가 */
+  td.notice-title:hover {
+    background-color: #00adb5;
+    color: #ffffff;
+  }
 `;
 
 const TableHead = styled.thead`

@@ -89,7 +89,8 @@ const Modal = styled.div`
 `;
 
 const ModalContent = styled.div`
-    background-color: #fff;
+    /* background-color: #fff; */
+    background-color: rgba(15, 16, 21, 0.5); // 배경색 설정
     padding: 20px;
     border-radius: 10px;
     width: 70%;

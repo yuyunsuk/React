@@ -6,7 +6,8 @@ import styled from "styled-components";
 const ModalTitle = styled.p`
   font-size: 24px;
   font-weight: 700;
-  background-color: #fff;
+  background-color: #0f1015;
+  color: #fff;
   border-bottom: 1px solid #1a1b24;
   padding: 20px;
   margin: 0;
@@ -14,10 +15,11 @@ const ModalTitle = styled.p`
 
 const ModalContent = styled.p`
   font-size: 18px;
-  background-color: #fff;
+  background-color: #0f1015;
+  color: #fff;
   padding: 20px;
   margin: 0;
-  line-height: 1.5;
+  line-height: 2.5;
 `;
 
 const ModalFooter = styled.div`
@@ -25,7 +27,8 @@ const ModalFooter = styled.div`
   justify-content: space-between;
   border-top: 1px solid #1a1b24;
   padding-top: 15px;
-  background-color: #fff;
+  background-color: #0f1015;
+  color: #fff;
 `;
 
 const Modal = ({ notice, onClose }) => (
@@ -60,7 +63,7 @@ const modalStyles = {
 };
 
 const modalContentStyles = {
-  backgroundColor: "#fff",
+  backgroundColor: "rgba(15, 16, 21, 0.5)",
   padding: "20px",
   borderRadius: "8px",
   position: "relative",
@@ -75,7 +78,8 @@ const closeButtonStyles = {
   right: "10px",
   fontSize: "24px",
   cursor: "pointer",
-  backgroundColor: "#fff",
+  color: "#fff",
+  backgroundColor: "transparent",
 };
 
 export default Modal;

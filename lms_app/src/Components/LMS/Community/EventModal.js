@@ -6,7 +6,8 @@ import styled from "styled-components";
 const EventModalTitle = styled.p`
   font-size: 24px;
   font-weight: 700;
-  background-color: #fff;
+  background-color: #0f1015;
+  color: #fff;
   border-bottom: 1px solid #1a1b24;
   padding: 20px;
   margin: 0;
@@ -14,10 +15,11 @@ const EventModalTitle = styled.p`
 
 const EventModalContent = styled.p`
   font-size: 18px;
-  background-color: #fff;
+  background-color: #0f1015;
+  color: #fff;
   padding: 20px;
   margin: 0;
-  line-height: 1.5;
+  line-height: 2.5;
 `;
 
 const EventModalFooter = styled.div`
@@ -25,7 +27,8 @@ const EventModalFooter = styled.div`
   justify-content: center;
   border-top: 1px solid #1a1b24;
   padding-top: 15px;
-  background-color: #fff;
+  background-color: #0f1015;
+  color: #fff;
 `;
 
 const EventModal = ({ event, onClose }) => (
@@ -61,7 +64,7 @@ const modalStyles = {
 };
 
 const modalContentStyles = {
-  backgroundColor: "#fff",
+  backgroundColor: "rgba(15, 16, 21, 0.5)",
   padding: "20px",
   borderRadius: "8px",
   position: "relative",
@@ -76,7 +79,8 @@ const closeButtonStyles = {
   right: "10px",
   fontSize: "24px",
   cursor: "pointer",
-  backgroundColor: "#fff",
+  color: "#fff",
+  backgroundColor: "transparent",
 };
 
 export default EventModal;
