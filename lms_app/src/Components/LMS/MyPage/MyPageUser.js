@@ -156,7 +156,8 @@ export function MyPageUser() {
             } catch (error) {
                 console.error("Error fetching user data:", error);
                 alert("로그인해주세요.");
-                window.location.href = "http://localhost:3000/home";
+                // window.location.href = "http://localhost:3000/home";
+                window.location.href = "/login";
             }
         };
 

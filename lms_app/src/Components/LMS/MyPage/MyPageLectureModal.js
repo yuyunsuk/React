@@ -352,7 +352,7 @@ export function MyPageLectureModal({ onClose }) {
                         classRoomBtn.addEventListener("click", () => {
                             // const courseUserId = data.user.userId;
                             // const courseLectureId = data.lecture.lectureId;
-                            // http://localhost:3000/course/test01/L00000000057
+                            // http://localhost:3000/api/course/test01/L00000000057
 
                             // 현재 URL에서 '/mypage/'를 제거
                             // const baseUrl = window.location.href.replace(

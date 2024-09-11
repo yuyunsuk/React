@@ -217,7 +217,7 @@ export function UnityProject() {
             setModalReturn(() => CartModal); // React component function
         } else if (roomName == "로그아웃") {
             setModalReturn(() => {
-                window.location.href = "http://localhost:3000/Login";
+                window.location.href = "/login";
             }); // React component function
         }
     }
