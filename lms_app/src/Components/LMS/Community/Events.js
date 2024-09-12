@@ -41,6 +41,7 @@ const H1 = styled.div`
   margin-inline-end: 0px;
   font-weight: bold;
   unicode-bidi: isolate;
+  color: #ffce48;
 `;
 
 const Container = styled.div`
@@ -70,26 +71,33 @@ const Content = styled.div`
 const EventCard = styled.div`
   border: 1px solid #1c1e24; /* 어두운 회색 테두리 */
   padding: 15px;
-  background-color: #23262d; /* 짙은 회색 배경 */
   border-radius: 8px;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   cursor: pointer;
   color: #ffffff; /* 카드 내 텍스트 색상 */
+  background-color: transparent;
 `;
 
 const EventImage = styled.img`
   width: 100%;
-  height: 150px;
+  height: 250px;
   object-fit: cover;
   border-radius: 8px;
+  margin-bottom: 30px;
+`;
+const EventDetailImage = styled.img`
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 30px;
 `;
 
 const EventTitle = styled.h3`
-  font-size: 1.2rem;
+  font-size: 20px;
   margin: 10px 0;
   color: #00adb5; /* 청록색 텍스트 */
+  font-weight: 800;
 `;
 
 const Pagination = styled.div`
@@ -102,22 +110,22 @@ const Pagination = styled.div`
 `;
 
 const PaginationButton = styled.button`
-    margin: 0 5px;
-    padding: 5px 10px;
-    background-color: ${(props) =>
-        props.disabled ? "#555" : "#00adb5"};
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
-    &:hover:not(:disabled) {
-        background-color: #0056b3;
-    }
+  margin: 0 5px;
+  padding: 5px 10px;
+  background-color: ${(props) => (props.disabled ? "#555" : "#00adb5")};
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  &:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
 `;
 
 // 이벤트 상세 스타일 정의
 const EventDetailContainer = styled.div`
-  display: ${(props) => (props.$isVisible ? "block" : "none")}; /* 상세 페이지 표시 여부 */
+  display: ${(props) =>
+    props.$isVisible ? "block" : "none"}; /* 상세 페이지 표시 여부 */
   max-width: 800px;
   margin: 20px auto;
   padding: 20px;
@@ -184,9 +192,9 @@ export function Events() {
   };
 
   const handlePageChange = (newPage) => {
-      if (newPage > 0 && newPage <= totalPages) {
-          setPage(newPage);
-      }
+    if (newPage > 0 && newPage <= totalPages) {
+      setPage(newPage);
+    }
   };
 
   return (
@@ -194,7 +202,7 @@ export function Events() {
       <Navbar />
       <LeftSidebar />
       <BigBox>
-        <H1 style={{ color: "#ffffff" }}>이벤트</H1>
+        <H1>이벤트</H1>
         <Container>
           <MainContent>
             {/* 이벤트 목록 */}
@@ -209,10 +217,16 @@ export function Events() {
                     alt={event.lmsEventsTitle}
                   />
                   <EventTitle>{event.lmsEventsTitle}</EventTitle>
-                  <p>
+                  <p
+                    style={{ backgroundColor: "transparent", fontSize: "14px" }}
+                  >
                     {event.lmsEventsStartDate} - {event.lmsEventEndDate}
                   </p>
-                  <p>Views: {event.lmsEventViewCount}</p>
+                  <p
+                    style={{ backgroundColor: "transparent", fontSize: "14px" }}
+                  >
+                    Views: {event.lmsEventViewCount}
+                  </p>
                 </EventCard>
               ))}
             </Content>
@@ -220,17 +234,37 @@ export function Events() {
             {/* 이벤트 상세 보기 */}
             {selectedEvent && (
               <EventDetailContainer $isVisible={!!selectedEventId}>
-                <h1>{selectedEvent.lmsEventsTitle}</h1>
-                <EventImage
+                <h1
+                  style={{
+                    backgroundColor: "transparent",
+                    textAlign: "center",
+                    margin: "10px 0 ",
+                    color: "#00adb5",
+                    fontWeight: "700",
+                  }}
+                >
+                  {selectedEvent.lmsEventsTitle}
+                </h1>
+                <EventDetailImage
                   src={selectedEvent.imagePath || "/default-image.jpg"}
                   alt={selectedEvent.lmsEventsTitle}
                 />
-                <p>{selectedEvent.lmsEventsContent}</p>
-                <p>
+                <p
+                  style={{ backgroundColor: "transparent", margin: "20px 0 " }}
+                >
+                  {selectedEvent.lmsEventsContent}
+                </p>
+                <p
+                  style={{ backgroundColor: "transparent", margin: "10px 0 " }}
+                >
                   기간: {selectedEvent.lmsEventsStartDate} -{" "}
                   {selectedEvent.lmsEventEndDate}
                 </p>
-                <p>조회수: {selectedEvent.lmsEventViewCount}</p>
+                <p
+                  style={{ backgroundColor: "transparent", margin: "10px 0 " }}
+                >
+                  조회수: {selectedEvent.lmsEventViewCount}
+                </p>
                 <BackButton onClick={handleBackToList}>
                   목록으로 돌아가기
                 </BackButton>
@@ -238,37 +272,39 @@ export function Events() {
             )}
 
             {/* 페이지네이션 (이벤트 목록이 보일 때만 표시) */}
-                        {!selectedEventId && (
-                            <Pagination>
-                                <PaginationButton
-                                    onClick={() => handlePageChange(page - 1)}
-                                    disabled={page === 1}
-                                >
-                                    이전
-                                </PaginationButton>
+            {!selectedEventId && (
+              <Pagination>
+                <PaginationButton
+                  onClick={() => handlePageChange(page - 1)}
+                  disabled={page === 1}
+                >
+                  ◀
+                </PaginationButton>
 
-                                {/* 동적 페이지 번호 생성 */}
-                                {Array.from({ length: totalPages }, (_, i) => (
-                                    <PaginationButton
-                                        key={i + 1}
-                                        onClick={() => handlePageChange(i + 1)}
-                                        disabled={i + 1 === page}
-                                    >
-                                        {i + 1}
-                                    </PaginationButton>
-                                ))}
+                {/* 동적 페이지 번호 생성 */}
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <PaginationButton
+                    key={i + 1}
+                    onClick={() => handlePageChange(i + 1)}
+                    disabled={i + 1 === page}
+                  >
+                    {i + 1}
+                  </PaginationButton>
+                ))}
 
-                                <PaginationButton
-                                    onClick={() => handlePageChange(page + 1)}
-                                    disabled={page === totalPages}
-                                >
-                                    다음
-                                </PaginationButton>
-                            </Pagination>
-                        )}
-                    </MainContent>
-                </Container>
-            </BigBox>
-        </>
-    );
+                <PaginationButton
+                  onClick={() => handlePageChange(page + 1)}
+                  disabled={page === totalPages}
+                >
+                  ▶
+                </PaginationButton>
+              </Pagination>
+            )}
+          </MainContent>
+        </Container>
+      </BigBox>
+    </>
+  );
 }
+
+export default Events;

@@ -65,7 +65,6 @@ export function IndexCommunity() {
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [noticeModalOpen, setNoticeModalOpen] = useState(false);
     const [eventModalOpen, setEventModalOpen] = useState(false);
-
     const navigate = useNavigate();
 
     useEffect(() => {

@@ -72,6 +72,21 @@ const ChkText = styled.p`
   display: inline-block;
 `;
 
+const InputfadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const TextAreaBox = styled.div`
+  animation: ${InputfadeIn} 0.6s ease-out;
+`;
+
 export function MyPageUserDelete() {
   const [userId, setUserId] = useState("");
   const [userOffice, setUserOffice] = useState("DW 아카데미");
@@ -197,9 +212,8 @@ export function MyPageUserDelete() {
 
               {/* 체크박스가 체크되었을 때만 텍스트 영역을 표시 */}
               {showTextArea && (
-                <div
-                  className="userDeleteReasonBox"
-                  style={{ marginTop: "50px" }}
+                <TextAreaBox
+                  style={{ marginTop: "20px", backgroundColor: "#fff" }}
                 >
                   <textarea
                     id="userDeleteReason"
@@ -209,7 +223,7 @@ export function MyPageUserDelete() {
                     onInput={handleResizeHeight}
                     style={{ fontSize: "14px", width: "80%" }}
                   ></textarea>
-                </div>
+                </TextAreaBox>
               )}
 
               {textMinLengthAlert && (

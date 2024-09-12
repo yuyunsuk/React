@@ -68,7 +68,7 @@ const modalContentStyles = {
   borderRadius: "8px",
   position: "relative",
   width: "80%",
-  maxWidth: "800px",
+  maxWidth: "1000px",
   boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
 };
 

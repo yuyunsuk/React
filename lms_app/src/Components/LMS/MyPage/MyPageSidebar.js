@@ -156,7 +156,6 @@ export function MypageSidebar() {
             console.log("User Id Error", error);
         }
     }
-    console.log(count);
 
     return (
         <>

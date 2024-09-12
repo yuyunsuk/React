@@ -269,7 +269,7 @@ export function RightSidebar() {
             console.log("User Id Error", error);
         }
     }
-    console.log(count);
+    console.log(session);
 
     return (
         <>

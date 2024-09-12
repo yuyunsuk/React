@@ -21,12 +21,22 @@ const fadeIn = keyframes`
   }
 `;
 
+// const Container = styled.div`
+//     box-sizing: border-box;
+//     padding: 176px 50px 0 240px;
+//     transition: all 0.3s;
+//     display: grid;
+//     grid-template-columns: 70% 30%;
+//     animation: ${fadeIn} 0.6s ease-out;
+//     width: 100%;
+// `;
+
 const Container = styled.div`
     box-sizing: border-box;
-    padding: 176px 50px 0 240px;
+    padding: 100px 50px 0 240px;
     transition: all 0.3s;
-    display: grid;
-    grid-template-columns: 70% 30%;
+    /* display: grid;
+    grid-template-columns: 70% 30%; */
     animation: ${fadeIn} 0.6s ease-out;
     width: 100%;
 `;

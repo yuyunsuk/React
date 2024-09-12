@@ -79,31 +79,31 @@ const Modal = styled.div`
 `;
 
 const ModalContent = styled.div`
-    /* background-color: #fff; */
-    background-color: rgba(15, 16, 21, 0.5); // 배경색 설정
-    padding: 20px;
-    border-radius: 10px;
-    width: 70%;
-    max-width: 800px;
-    position: relative;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 70%;
+  max-width: 800px;
+  position: relative;
+  background-color: rgba(15, 16, 21, 0.5);
 `;
 
 const CloseButton = styled.button`
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 30px;
-    cursor: pointer;
-    background: none;
-    border: none;
-    color: #fff;
-    padding: 0;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-size: 30px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: #fff;
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
 `;
 const ContentTitle = styled.p`
     font-size: 24px;
@@ -374,9 +374,7 @@ export function Course() {
                     </Table>
                     {isModalOpen && (
                         <Modal>
-                            <CloseButton onClick={closeModal}>
-                                &times;
-                            </CloseButton>
+                            <CloseButton onClick={closeModal}>&times;</CloseButton>
                             <ModalContent>
                                 <video controls style={{ width: "100%" }}>
                                     <source

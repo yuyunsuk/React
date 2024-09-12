@@ -26,7 +26,7 @@ const Container = styled.div`
 const CartTitle = styled.p`
     color: #ffce48;
     font-size: 28px;
-    font-weight: 500;
+    font-weight: 800;
 `;
 
 const CartForm = styled.div`
@@ -66,11 +66,23 @@ const Chk = styled.input`
 
 const ChkAll = styled.div`
     width: 80%;
-    background-color: bule;
     background-color: transparent;
     text-align: left;
     /* margin: 10px; */
-    padding: 10px 10px 10px 20px;
+    padding: 10px 0;
+    position: relative;
+    height: 60px;
+`;
+
+const ChkAllBtn = styled.button`
+    background-color: #4a90e2;
+    color: #fff;
+    border: 2px solid #4a90e2;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 `;
 
 const CartItem = styled.div`
@@ -211,10 +223,9 @@ const LectureMoveBtn = styled.button`
 export function Cart() {
     const [cart, setCart] = useState([]);
     const [checkedItems, setCheckedItems] = useState([]);
-    const [selectAll, setSelectAll] = useState(false);
     const [userId, setUserId] = useState("");
     const [cartData, setCartData] = useState(false);
-    const navigate = useNavigate("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         cartList();
@@ -254,7 +265,6 @@ export function Cart() {
                 localStorage.setItem(userId, JSON.stringify(updatedCart));
                 setCart(updatedCart);
                 setCheckedItems([]);
-                setSelectAll(false);
             }
             alert("선택된 항목들이 수강신청 되었습니다.");
         } catch (error) {
@@ -281,7 +291,18 @@ export function Cart() {
             console.error("Cart List Error:", error);
         }
     }
-    console.log(cartData);
+
+    // 전체 선택 버튼 클릭 핸들러
+    const handleSelectAll = () => {
+        if (cart.length === 0) return; // 장바구니가 비어 있을 경우
+
+        const allItemIds = cart.map((item) => item.lectureId);
+        if (checkedItems.length === cart.length) {
+            setCheckedItems([]); // 모든 항목이 선택된 상태에서 버튼 클릭 시 체크 해제
+        } else {
+            setCheckedItems(allItemIds); // 모든 항목 선택
+        }
+    };
 
     const handleCheckboxChange = (lectureId) => {
         setCheckedItems((prevCheckedItems) => {
@@ -293,15 +314,7 @@ export function Cart() {
         });
     };
 
-    const handleSelectAllChange = () => {
-        if (selectAll) {
-            setCheckedItems([]);
-        } else {
-            setCheckedItems(cart.map((item) => item.lectureId));
-        }
-        setSelectAll(!selectAll);
-    };
-
+    // 선택된 항목 삭제
     async function cartRemove() {
         if (checkedItems.length === 0) {
             alert("삭제할 항목을 선택해주세요.");
@@ -317,8 +330,6 @@ export function Cart() {
         }
 
         try {
-            const SessionData = await getCurrentUser();
-            const userId = SessionData.userId;
             let cartList = JSON.parse(localStorage.getItem(userId)) || [];
 
             cartList = cartList.filter(
@@ -328,7 +339,6 @@ export function Cart() {
             localStorage.setItem(userId, JSON.stringify(cartList));
             setCart(cartList);
             setCheckedItems([]);
-            setSelectAll(false);
         } catch (error) {
             console.log("Remove Error", error);
         }
@@ -341,29 +351,16 @@ export function Cart() {
             <RightSidebar />
             <Container>
                 <CartTitle>장바구니</CartTitle>
-                {/* <ChkAll></ChkAll>
-        <CartForm>
-          <Chk></Chk>
-          <CartItem></CartItem>
-        </CartForm> */}
 
                 <div>
                     {cart.length > 0 ? (
                         <>
                             <ChkAll>
-                                <Chk
-                                    type="checkbox"
-                                    checked={selectAll}
-                                    onChange={handleSelectAllChange}
-                                />
-                                <p
-                                    style={{
-                                        color: "#fff",
-                                        display: "inline-block",
-                                    }}
-                                >
-                                    전체선택
-                                </p>
+                                <ChkAllBtn onClick={handleSelectAll}>
+                                    {checkedItems.length === cart.length
+                                        ? "전체 선택"
+                                        : "전체 선택"}
+                                </ChkAllBtn>
                             </ChkAll>
                             {cart.map((lecture, index) => (
                                 <CartForm key={index}>
@@ -382,13 +379,12 @@ export function Cart() {
                                         <CartImgBox>
                                             <LectureImg
                                                 src={lecture.imagePath}
-                                            ></LectureImg>
+                                            />
                                         </CartImgBox>
                                         <CartTextBox>
                                             <CartItem>
                                                 강의명 : {lecture.lectureName}
                                             </CartItem>
-
                                             <CartItem>
                                                 가격 : {lecture.educationPrice}
                                             </CartItem>
@@ -401,16 +397,18 @@ export function Cart() {
                                 </CartForm>
                             ))}
                             <RemoveBtnBox>
-                                <RemoveBtn onClick={cartRemove}>삭제</RemoveBtn>
+                                <RemoveBtn onClick={cartRemove}>
+                                    선택삭제
+                                </RemoveBtn>
                                 <CourseBtn onClick={courseAdd}>
-                                    수강하기
+                                    수강신청
                                 </CourseBtn>
                             </RemoveBtnBox>
                         </>
                     ) : (
                         <CartNoneBox>
                             <CartNone>
-                                <CartNoneImg src="/reactimage/Cart.png"></CartNoneImg>
+                                <CartNoneImg src="/reactimage/Cart.png" />
                             </CartNone>
                             <CartNoneText>장바구니가 비었습니다</CartNoneText>
                             <LectureMoveBox>

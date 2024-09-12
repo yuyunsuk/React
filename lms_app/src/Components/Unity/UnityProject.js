@@ -74,6 +74,24 @@ const Container = styled.div`
     animation: ${fadeIn} 0.6s ease-out;
 `;
 
+// 게임을 로드할 화면을 만듬
+// const Container = styled.div`
+//   /* top: 2px;
+//     left: 86px;
+//     width: 1726px;
+//     height: 690px; */
+// 
+//   position: absolute;
+//   top: -20px;
+//   left: 120px;
+//   width: 1671px;
+//   height: 695px;
+// 
+//   margin: 80px auto;
+//   border: 1px solid gray;
+//   animation: ${fadeIn} 0.6s ease-out;
+// `;
+
 const customStyles = {
     content: {
         top: "50%",

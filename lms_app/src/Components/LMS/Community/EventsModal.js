@@ -3,20 +3,41 @@ import {
     getAllLmsEvents,
     getLmsEventById,
 } from "../../../Api/CommunityApi/CommunityApi";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Navbar } from "../Navbar";
 import { LeftSidebar, RightSidebar } from "../Sidebar";
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 // 스타일 정의
+const Container = styled.div`
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #0f1015; /* 배경색 적용 */
+`;
+
 const BigBox = styled.div`
     background-color: #0f1015;
     color: #e0e0e0;
-    min-height: 130vh;
+    min-height: 100vh;
     padding: 20px;
-    width: 90%; 
+    /* width: 90%; */
+    width: 100%;
+
     margin: 0 auto; /* 화면 중앙에 배치 */
     margin-top: 5%;
-`
+    animation: ${fadeIn} 0.6s ease-out;
+`;
 
 const H1 = styled.div`
     text-align: center;
@@ -28,13 +49,7 @@ const H1 = styled.div`
     margin-inline-end: 0px;
     font-weight: bold;
     unicode-bidi: isolate;
-`
-
-const Container = styled.div`
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    background-color: #0f1015; /* 배경색 적용 */
+    color: #ffce48;
 `;
 
 const MainContent = styled.div`
@@ -57,26 +72,33 @@ const Content = styled.div`
 const EventCard = styled.div`
     border: 1px solid #1c1e24; /* 어두운 회색 테두리 */
     padding: 15px;
-    background-color: #23262d; /* 짙은 회색 배경 */
     border-radius: 8px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     cursor: pointer;
     color: #ffffff; /* 카드 내 텍스트 색상 */
+    background-color: transparent;
 `;
 
 const EventImage = styled.img`
     width: 100%;
-    height: 150px;
+    height: 250px;
     object-fit: cover;
     border-radius: 8px;
+    margin-bottom: 30px;
+`;
+const EventDetailImage = styled.img`
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 30px;
 `;
 
 const EventTitle = styled.h3`
-    font-size: 1.2rem;
+    font-size: 20px;
     margin: 10px 0;
     color: #00adb5; /* 청록색 텍스트 */
+    font-weight: 800;
 `;
 
 const Pagination = styled.div`
@@ -91,14 +113,13 @@ const Pagination = styled.div`
 const PaginationButton = styled.button`
     margin: 0 5px;
     padding: 5px 10px;
-    background-color: #00adb5; /* 밝은 파란색 버튼 */
+    background-color: ${(props) => (props.disabled ? "#555" : "#00adb5")};
     color: #fff;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
-
-    &:disabled {
-        background-color: #1c1e24; /* 비활성화 시 어두운 회색 */
+    cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+    &:hover:not(:disabled) {
+        background-color: #0056b3;
     }
 `;
 
@@ -172,87 +193,152 @@ export function EventsModal() {
         setSelectedEvent(null); // 선택된 이벤트 상세 초기화
     };
 
+    const handlePageChange = (newPage) => {
+        if (newPage > 0 && newPage <= totalPages) {
+            setPage(newPage);
+        }
+    };
+
     return (
         <>
             {/* <Navbar />
       <LeftSidebar /> */}
-        <BigBox>
-            <H1 style={{ color: '#ffffff' }}>이벤트</H1>
-            <Container>
-                <MainContent>
-                    {/* 이벤트 목록 */}
-                    <Content
-                        style={{ display: selectedEventId ? "none" : "grid" }}
-                    >
-                        {events.map((event) => (
-                            <EventCard
-                                key={event.lmsEventSeq}
-                                onClick={() =>
-                                    handleEventClick(event.lmsEventSeq)
-                                }
-                            >
-                                <EventImage
-                                    src={
-                                        event.imagePath || "/default-image.jpg"
+            <BigBox>
+                <H1>이벤트</H1>
+                <Container>
+                    <MainContent>
+                        {/* 이벤트 목록 */}
+                        <Content
+                            style={{
+                                display: selectedEventId ? "none" : "grid",
+                            }}
+                        >
+                            {events.map((event) => (
+                                <EventCard
+                                    key={event.lmsEventSeq}
+                                    onClick={() =>
+                                        handleEventClick(event.lmsEventSeq)
                                     }
-                                    alt={event.lmsEventsTitle}
+                                >
+                                    <EventImage
+                                        src={
+                                            event.imagePath ||
+                                            "/default-image.jpg"
+                                        }
+                                        alt={event.lmsEventsTitle}
+                                    />
+                                    <EventTitle>
+                                        {event.lmsEventsTitle}
+                                    </EventTitle>
+                                    <p
+                                        style={{
+                                            backgroundColor: "transparent",
+                                            fontSize: "14px",
+                                        }}
+                                    >
+                                        {event.lmsEventsStartDate} -{" "}
+                                        {event.lmsEventEndDate}
+                                    </p>
+                                    <p
+                                        style={{
+                                            backgroundColor: "transparent",
+                                            fontSize: "14px",
+                                        }}
+                                    >
+                                        Views: {event.lmsEventViewCount}
+                                    </p>
+                                </EventCard>
+                            ))}
+                        </Content>
+
+                        {/* 이벤트 상세 보기 */}
+                        {selectedEvent && (
+                            <EventDetailContainer
+                                $isVisible={!!selectedEventId}
+                            >
+                                <h1
+                                    style={{
+                                        backgroundColor: "transparent",
+                                        textAlign: "center",
+                                        margin: "10px 0 ",
+                                        color: "#00adb5",
+                                        fontWeight: "700",
+                                    }}
+                                >
+                                    {selectedEvent.lmsEventsTitle}
+                                </h1>
+                                <EventDetailImage
+                                    src={
+                                        selectedEvent.imagePath ||
+                                        "/default-image.jpg"
+                                    }
+                                    alt={selectedEvent.lmsEventsTitle}
                                 />
-                                <EventTitle>{event.lmsEventsTitle}</EventTitle>
-                                <p>
-                                    {event.lmsEventsStartDate} -{" "}
-                                    {event.lmsEventEndDate}
+                                <p
+                                    style={{
+                                        backgroundColor: "transparent",
+                                        margin: "20px 0 ",
+                                    }}
+                                >
+                                    {selectedEvent.lmsEventsContent}
                                 </p>
-                                <p>Views: {event.lmsEventViewCount}</p>
-                            </EventCard>
-                        ))}
-                    </Content>
+                                <p
+                                    style={{
+                                        backgroundColor: "transparent",
+                                        margin: "10px 0 ",
+                                    }}
+                                >
+                                    기간: {selectedEvent.lmsEventsStartDate} -{" "}
+                                    {selectedEvent.lmsEventEndDate}
+                                </p>
+                                <p
+                                    style={{
+                                        backgroundColor: "transparent",
+                                        margin: "10px 0 ",
+                                    }}
+                                >
+                                    조회수: {selectedEvent.lmsEventViewCount}
+                                </p>
+                                <BackButton onClick={handleBackToList}>
+                                    목록으로 돌아가기
+                                </BackButton>
+                            </EventDetailContainer>
+                        )}
 
-                    {/* 이벤트 상세 보기 */}
-                    {selectedEvent && (
-                        <EventDetailContainer $isVisible={!!selectedEventId}>
-                            <h1>{selectedEvent.lmsEventsTitle}</h1>
-                            <EventImage
-                                src={
-                                    selectedEvent.imagePath ||
-                                    "/default-image.jpg"
-                                }
-                                alt={selectedEvent.lmsEventsTitle}
-                            />
-                            <p>{selectedEvent.lmsEventsContent}</p>
-                            <p>
-                                기간: {selectedEvent.lmsEventsStartDate} -{" "}
-                                {selectedEvent.lmsEventEndDate}
-                            </p>
-                            <p>조회수: {selectedEvent.lmsEventViewCount}</p>
-                            <BackButton onClick={handleBackToList}>
-                                목록으로 돌아가기
-                            </BackButton>
-                        </EventDetailContainer>
-                    )}
+                        {/* 페이지네이션 (이벤트 목록이 보일 때만 표시) */}
+                        {!selectedEventId && (
+                            <Pagination>
+                                <PaginationButton
+                                    onClick={() => handlePageChange(page - 1)}
+                                    disabled={page === 1}
+                                >
+                                    ◀
+                                </PaginationButton>
 
-                    {/* 페이지네이션 (이벤트 목록이 보일 때만 표시) */}
-                    {!selectedEventId && (
-                        <Pagination>
-                            <PaginationButton
-                                onClick={() => setPage(page - 1)}
-                                disabled={page === 1}
-                            >
-                                이전
-                            </PaginationButton>
-                            <span>
-                                {page} / {totalPages}
-                            </span>
-                            <PaginationButton
-                                onClick={() => setPage(page + 1)}
-                                disabled={page === totalPages}
-                            >
-                                다음
-                            </PaginationButton>
-                        </Pagination>
-                    )}
-                </MainContent>
-            </Container>
-        </BigBox>
+                                {/* 동적 페이지 번호 생성 */}
+                                {Array.from({ length: totalPages }, (_, i) => (
+                                    <PaginationButton
+                                        key={i + 1}
+                                        onClick={() => handlePageChange(i + 1)}
+                                        disabled={i + 1 === page}
+                                    >
+                                        {i + 1}
+                                    </PaginationButton>
+                                ))}
+
+                                <PaginationButton
+                                    onClick={() => handlePageChange(page + 1)}
+                                    disabled={page === totalPages}
+                                >
+                                    ▶
+                                </PaginationButton>
+                            </Pagination>
+                        )}
+                    </MainContent>
+                </Container>
+            </BigBox>
         </>
     );
 }
+
+export default EventsModal;

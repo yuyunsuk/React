@@ -1,4 +1,5 @@
-﻿import React, { useState, useEffect } from "react";
+﻿import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../../Styles/MyPageLecture.css";
 import styled, { keyframes } from "styled-components";
@@ -130,6 +131,7 @@ export function MyPageLecture() {
     const [userId, setUserId] = useState(null); // User ID 데이터
     const [lectureData, setLectureData] = useState([]); // 강의 상태별 Count 데이터
     const [currentTab, setCurrentTab] = useState("summary"); // summary, studying, cancel, complete
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -323,7 +325,10 @@ export function MyPageLecture() {
                             );
 
                             // 새로운 경로로 변경
-                            window.location.href = `${baseUrl}/course/${courseUserId}/${courseLectureId}`;
+                            // window.location.href = `${baseUrl}/course/${courseUserId}/${courseLectureId}`;
+                            navigate(
+                                `/course/${courseUserId}/${courseLectureId}`
+                            );
                         });
 
                         document
