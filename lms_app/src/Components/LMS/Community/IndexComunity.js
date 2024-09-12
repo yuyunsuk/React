@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import {
     getAllLmsEvents,
@@ -66,6 +66,7 @@ export function IndexCommunity() {
     const [noticeModalOpen, setNoticeModalOpen] = useState(false);
     const [eventModalOpen, setEventModalOpen] = useState(false);
     const navigate = useNavigate();
+    const modalBackground = useRef(null);
 
     useEffect(() => {
         axios();
@@ -140,12 +141,17 @@ export function IndexCommunity() {
             </Event>
             {noticeModalOpen && selectedNotice && (
                 <NoticeModal
+                    ref={modalBackground}
                     notice={selectedNotice}
                     onClose={closeNoticeModal}
                 />
             )}
             {eventModalOpen && selectedEvent && (
-                <EventModal event={selectedEvent} onClose={closeEventModal} />
+                <EventModal
+                    ref={modalBackground}
+                    event={selectedEvent}
+                    onClose={closeEventModal}
+                />
             )}
         </BoardContainer>
     );
