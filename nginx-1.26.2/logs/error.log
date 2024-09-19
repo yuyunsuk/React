@@ -1,0 +1,29 @@
+2024/09/19 10:35:23 [notice] 29404#8476: signal process started
+2024/09/19 10:38:29 [notice] 25876#3220: signal process started
+2024/09/19 10:40:20 [notice] 30356#27156: signal process started
+2024/09/19 10:42:05 [notice] 5268#22308: signal process started
+2024/09/19 10:42:05 [error] 5268#22308: CreateFile() "C:\Users\admin\Documents\GitHub\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/09/19 10:42:12 [notice] 17352#13472: signal process started
+2024/09/19 10:42:12 [error] 17352#13472: CreateFile() "C:\Users\admin\Documents\GitHub\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/09/19 10:42:30 [notice] 20256#21076: signal process started
+2024/09/19 10:42:30 [error] 20256#21076: CreateFile() "C:\Users\admin\Documents\GitHub\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/09/19 10:42:36 [notice] 20740#24016: signal process started
+2024/09/19 10:42:36 [error] 20740#24016: CreateFile() "C:\Users\admin\Documents\GitHub\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/09/19 10:43:08 [notice] 28588#15016: signal process started
+2024/09/19 10:43:08 [error] 28588#15016: CreateFile() "C:\Users\admin\Documents\GitHub\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/09/19 10:43:36 [notice] 17672#11840: signal process started
+2024/09/19 11:41:29 [notice] 4536#23624: signal process started
+2024/09/19 11:41:29 [error] 4536#23624: CreateFile() "C:\Users\admin\Documents\GitHub\React\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/09/19 11:41:46 [notice] 31452#9860: signal process started
+2024/09/19 11:41:46 [error] 31452#9860: CreateFile() "C:\Users\admin\Documents\GitHub\React\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/09/19 11:41:52 [notice] 12544#28604: signal process started
+2024/09/19 11:41:52 [error] 12544#28604: CreateFile() "C:\Users\admin\Documents\GitHub\React\nginx-1.26.2/logs/nginx.pid" failed (2: The system cannot find the file specified)
+2024/09/19 11:42:20 [notice] 9744#8944: signal process started
+2024/09/19 12:14:43 [notice] 16804#3584: signal process started
+2024/09/19 12:18:27 [notice] 25300#19852: signal process started
+2024/09/19 12:19:13 [notice] 18904#18892: signal process started
+2024/09/19 12:55:58 [notice] 30728#31096: signal process started
+2024/09/19 13:50:49 [notice] 30340#364: signal process started
+2024/09/19 13:50:56 [notice] 25524#21656: signal process started
+2024/09/19 13:56:43 [notice] 3184#28576: signal process started
+2024/09/19 14:22:00 [notice] 21328#21100: signal process started

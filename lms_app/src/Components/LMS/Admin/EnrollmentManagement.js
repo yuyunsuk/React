@@ -133,8 +133,8 @@ export function EnrollmentManagement() {
 
     const COUNT_PER_PAGE = 10;
     const url = searchTerm
-        ? `http://localhost:8080/api/course/queryCLCJPQL/${searchTerm}`
-        : `http://localhost:8080/api/course/queryCLCJPQL/`;
+        ? `/api/course/queryCLCJPQL/${searchTerm}`
+        : `/api/course/queryCLCJPQL/`;
 
     useEffect(() => {
         axios

@@ -293,8 +293,8 @@ export function CourseModal({ userId, lectureId, onClose }) {
     const maxLength = Math.max(learning.length, progress.length);
 
     function CreateQAUrl(lectureId, learningContentsSeq) {
-        // const urlLectureContentQA = `http://localhost:8080/learning/contents/qa/${lectureId}/${learningContentsSeq}`; // /{lectureId}/{learningContentsSeq}
-        qaUrl = `http://localhost:8080/learning/contents/qa/${lectureId}/${learningContentsSeq}`; // /{lectureId}/{learningContentsSeq}
+        // const urlLectureContentQA = `/learning/contents/qa/${lectureId}/${learningContentsSeq}`; // /{lectureId}/{learningContentsSeq}
+        qaUrl = `/learning/contents/qa/${lectureId}/${learningContentsSeq}`; // /{lectureId}/{learningContentsSeq}
 
         // window.alert("CreateQAUrl qaUrl: " + qaUrl);
         onClose(qaUrl);

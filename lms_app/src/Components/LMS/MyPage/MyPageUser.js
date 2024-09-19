@@ -133,18 +133,15 @@ export function MyPageUser() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(
-                    "http://localhost:8080/user/current",
-                    {
-                        withCredentials: true,
-                    }
-                );
+                const response = await axios.get("/user/current", {
+                    withCredentials: true,
+                });
                 const authorityName = response.data.authority[0].authority;
                 if (authorityName === "ROLE_ADMIN") {
                     // Handle admin specific logic
                 }
                 const userResponse = await axios.get(
-                    `http://localhost:8080/user/id/${response.data.userId}`,
+                    `/user/id/${response.data.userId}`,
                     { withCredentials: true }
                 );
 
@@ -212,13 +209,9 @@ export function MyPageUser() {
             // );
 
             try {
-                await axios.put(
-                    "http://localhost:8080/user/userset",
-                    userNewData,
-                    {
-                        withCredentials: true,
-                    }
-                );
+                await axios.put("/user/userset", userNewData, {
+                    withCredentials: true,
+                });
                 setIsEditing(false);
                 window.location.reload();
             } catch (error) {

@@ -115,11 +115,9 @@ const SignUp = ({ onSuccess }) => {
                     userName: signupUserName,
                     userEmail: signupEmail,
                 };
-                const response = await axios.post(
-                    "http://localhost:8080/user/signup",
-                    data,
-                    { withCredentials: true }
-                );
+                const response = await axios.post("/user/signup", data, {
+                    withCredentials: true,
+                });
                 if (response.status === 201) {
                     alert("회원가입이 완료되었습니다.");
                     window.location.href = "login";

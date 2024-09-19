@@ -193,8 +193,8 @@ export function UserManagement() {
 
     const fetchData = async () => {
         const url = searchTerm
-            ? `http://localhost:8080/user/id/nameLike/${searchTerm}`
-            : "http://localhost:8080/user/admin/getAllUsers";
+            ? `/user/id/nameLike/${searchTerm}`
+            : "/user/admin/getAllUsers";
 
         try {
             const response = await axios.get(url, { withCredentials: true });
@@ -226,7 +226,7 @@ export function UserManagement() {
     const handleUpdateAuthority = async (userId, userName, newAuthority) => {
         try {
             const response = await axios.put(
-                "http://localhost:8080/user/updateAuthority",
+                "/user/updateAuthority",
                 {
                     userId,
                     authorityName: newAuthority,

@@ -8,7 +8,7 @@ import { Navbar } from "../Navbar";
 import axios from "axios";
 
 // API 엔드포인트
-const urlCurrent = "http://localhost:8080/user/current"; // 세션 조회
+const urlCurrent = "/user/current"; // 세션 조회
 
 const fadeIn = keyframes`
   from {

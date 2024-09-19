@@ -132,11 +132,9 @@ export function Login({ onSignup }) {
     const handleLogin = async () => {
         try {
             const data = { userId, password };
-            const response = await axios.post(
-                "http://localhost:8080/user/login",
-                data,
-                { withCredentials: true }
-            );
+            const response = await axios.post("/user/login", data, {
+                withCredentials: true,
+            });
             if (response.status === 200) {
                 setLoginCurrent(true);
             }

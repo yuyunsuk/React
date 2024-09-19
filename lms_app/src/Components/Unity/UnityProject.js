@@ -80,13 +80,13 @@ const Container = styled.div`
 //     left: 86px;
 //     width: 1726px;
 //     height: 690px; */
-// 
+//
 //   position: absolute;
 //   top: -20px;
 //   left: 120px;
 //   width: 1671px;
 //   height: 695px;
-// 
+//
 //   margin: 80px auto;
 //   border: 1px solid gray;
 //   animation: ${fadeIn} 0.6s ease-out;
@@ -167,7 +167,7 @@ export function UnityProject() {
     function handleGameReady() {
         console.log("Game is ready to receive messages");
 
-        const urlCurrent = "http://localhost:8080/user/current"; // 세션 조회
+        const urlCurrent = "/user/current"; // 세션 조회
 
         axios
             .get(urlCurrent, {
@@ -255,8 +255,8 @@ export function UnityProject() {
     }, []);
 
     function ReactToUnityJSON(urlLectureContentQA) {
-        // const urlLectureContentQA = `http://localhost:8080/learning/contents/qa/${lectureId}/${data.learningContentsSeq}`; // /{lectureId}/{learningContentsSeq}
-        // const urlLectureContentQA = `http://localhost:8080/learning/contents/qa/L00000000052/3`; // /{lectureId}/{learningContentsSeq}
+        // const urlLectureContentQA = `/learning/contents/qa/${lectureId}/${data.learningContentsSeq}`; // /{lectureId}/{learningContentsSeq}
+        // const urlLectureContentQA = `/learning/contents/qa/L00000000052/3`; // /{lectureId}/{learningContentsSeq}
 
         // window.alert("urlLectureContentQA: " + urlLectureContentQA);
 
@@ -333,7 +333,7 @@ export function UnityProject() {
                     {/* <button
                 onClick={() =>
                     ReactToUnityJSON(
-                        "http://localhost:8080/learning/contents/qa/L00000000052/3"
+                        "/learning/contents/qa/L00000000052/3"
                     )
                 }
             >

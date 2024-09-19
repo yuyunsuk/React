@@ -16,10 +16,9 @@ export function LoginMain() {
 
     const sessionCurrent = async () => {
         try {
-            const response = await axios.get(
-                "http://localhost:8080/user/current",
-                { withCredentials: true }
-            );
+            const response = await axios.get("/user/current", {
+                withCredentials: true,
+            });
             if (response.status === 200) {
                 setIsAuthenticated(true);
                 // AuthProvider.setIsAuthenticated(true);
@@ -45,7 +44,7 @@ export function LoginMain() {
     const handleLogout = async () => {
         try {
             const response = await axios.post(
-                "http://localhost:8080/user/logout",
+                "/user/logout",
                 {},
                 { withCredentials: true }
             );
